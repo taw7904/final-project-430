@@ -8,6 +8,11 @@ const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
+// schema to hold user's accounts
+// username - match ensures useres Regex
+// password - encrypted password
+// salt - secondary key of random data to encrypt/decrypt password
+// createdDate - basic data for when account was made
 const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -47,6 +52,7 @@ const validatePassword = (doc, password, callback) => {
   });
 };
 
+// call AccountModel.findByUsername
 AccountSchema.statics.findByUsername = (name, callback) => {
   const search = {
     username: name,

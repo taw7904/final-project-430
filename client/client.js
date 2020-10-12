@@ -1,3 +1,10 @@
+/*
+On login and signup form submit, 
+JS will make POST itself instead of form itself
+JS will then wait for some server JSON reponse
+Client side must communicate through AJAX or Websockets
+*/
+
 const handleError = (message) => {
   $("#errorMessage").text(message);
   $("#domoMessage").animate({width:'toggle'},350);
@@ -24,11 +31,13 @@ const sendAjax = (action, data) => {
 }
 
 $(document).ready(() => {
+    // waiting for signupSubmit button click from signup.handlebars
   $("#signupForm").on("submit", (e) => {
     e.preventDefault();
 
     $("#domoMessage").animate({width:'hide'},350);
 
+      // validate the info
     if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
       handleError("RAWR! All fields are required");
       return false;
@@ -39,6 +48,8 @@ $(document).ready(() => {
       return false;           
     }
 
+      // post ajax request and serialize the form into key/value string
+      // username=value&pass=value&pass2=value
     sendAjax($("#signupForm").attr("action"), $("#signupForm").serialize());
 
     return false;
