@@ -12,6 +12,8 @@ const signupPage = (req, res) => {
 };
 
 const logout = (req, res) => {
+  // remove a user's session
+  req.session.destroy();
   res.redirect('/');
 };
 
@@ -31,6 +33,8 @@ const login = (request, response) => {
     if (err || !account) {
       return res.status(401).json({ error: 'Wrong username or password' });
     }
+    // attach all fields from toAPI to session tracking
+    req.session.account = Account.AccountModel.toAPI(account);
     return res.json({ redirect: '/maker' });
   });
 };
@@ -63,7 +67,11 @@ const signup = (request, response) => {
     };
     const newAccount = new Account.AccountModel(accountData);
     const savePromise = newAccount.save();
-    savePromise.then(() => res.json({ redirect: '/maker' }));
+    savePromise.then(() => {
+      // attach data from toAPI
+      req.session.account = Account.AccountModel.toAPI(newAccount);
+      res.json({ redirect: '/maker' });
+    });
     savePromise.catch((err) => {
       console.log(err);
       if (err.code === 11000) {

@@ -28,7 +28,17 @@ Pulls in assets from /assets
   </section>
   <section id="domos">
     <div class="domo">
-
+        {{#if domos}}
+            {{#each domos}}
+            <div class="domo">
+                <img src="/assets/img/domoface.jpeg" alt="domo face" class="domoFace" />
+                <h3 class="domoName">Name: {{this.name}}</h3>
+                <h3 class="domoAge">Age: {{this.age}}</h3>
+            </div>
+        {{/each}}
+        {{else}}
+        <h3 class="emptyDomo">No Domos yet</h3>
+        {{/if}}
     </div>
   </section>
   <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
