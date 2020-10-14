@@ -27,6 +27,7 @@ Form inputs: "username" "pass" "pass2"
       <input id="pass" type="password" name="pass" placeholder="password"/>
       <label for="pass2">Password: </label>
       <input id="pass2" type="password" name="pass2" placeholder="retype password"/>
+      <input type="hidden" name="_csrf" value={{csrfToken}} />
       <input class="formSubmit" type="submit" value="Sign Up" />
     </form>
   </section>
