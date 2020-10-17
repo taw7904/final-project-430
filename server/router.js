@@ -6,11 +6,12 @@ const mid = require('./middleware');
 // last parameter is always the controller
 // everything in between is any of middleware operations
 const router = (app) => {
+  app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
   // need secure for login
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   // need secure for sign up
-  app.get('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signupPage);
+  // app.get('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signupPage);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   // make sure they are logged in to be able to log out
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
