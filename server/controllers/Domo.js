@@ -13,23 +13,35 @@ const makerPage = (req, res) => {
   });
 };
 
-const updateDomo = (req, res) =>
+const updateDomo = (req, res) => {
 /* const newDomoData = {
     talent: req.body.talent
     }; */
 
-  Domo.DomoModel.findById(req.body.id, (err, docs) => {
+  Domo.DomoModel.findById(req.body.id, (err, doc) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-    if (!docs) {
+    if (!doc) {
       return res.json({ error: 'No domos found' });
     }
-    console.log({ domos: docs });
-    // return res.json({ domos: docs });
-    console.log(req.body);
+  let updateDomo = doc;
+  updateDomo.talent = req.body.talent;
+      console.log(updateDomo);
+  const domoPromise = updateDomo.save();
+
+  domoPromise.then(() => res.json({ redirect: '/maker' }));
+
+  domoPromise.catch((err2) => {
+    console.log(err2);
+    return res.status(400).json({ error: 'An error occured' });
   });
+  return domoPromise;
+  });
+};
+
+
 const makeDomo = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.talent) {
     return res.status(400).json({ error: 'RAWR! Name, age, and talent are required.' });

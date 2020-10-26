@@ -70,13 +70,12 @@ const editDomo = (e) => {
     
     let newData = {
     id: e.target.dataset.domoid,
-    newTalent: newTalent,
+    talent: newTalent,
     _csrf: csrfToken,
     name: e.target.dataset.name,
         age: e.target.dataset.age,
     };
-    sendAjax('POST', '/update', newData, function() {
-    });
+    sendAjax('POST', '/update', newData, loadDomosFromServer);
     //return false;
 };
 

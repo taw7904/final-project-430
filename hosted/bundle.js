@@ -105,12 +105,12 @@ var editDomo = function editDomo(e) {
   var newTalent = window.prompt("What's the Domo's new talent?");
   var newData = {
     id: e.target.dataset.domoid,
-    newTalent: newTalent,
+    talent: newTalent,
     _csrf: csrfToken,
     name: e.target.dataset.name,
     age: e.target.dataset.age
   };
-  sendAjax('POST', '/update', newData, function () {}); //return false;
+  sendAjax('POST', '/update', newData, loadDomosFromServer); //return false;
 }; // add domos from server and render a domo list
 
 
