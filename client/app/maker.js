@@ -1,3 +1,6 @@
+// global csrfToken
+let csrfToken;
+
 // add react components for our Domo app
 const handleDomo = (e) => {
     e.preventDefault();
@@ -52,7 +55,7 @@ const DomoList = function(props) {
                 <h3 className="domoName">Name: {domo.name}</h3>
                 <h3 className="domoAge">Age: {domo.age}</h3>
                 <h3 className="domoTalent">Talent: {domo.talent}</h3>
-                <input className="editDomo" type="submit" value="Edit Talent" onClick={editDomo} data-domoid={domo._id} data-csrf={props.csrf} />
+                <input className="editDomo" type="submit" value="Edit Talent" onClick={editDomo} data-domoid={domo._id} data-csrf={props.csrf} data-name={domo.name} data-age={domo.age} />
             </div>
         );
     });
@@ -68,11 +71,11 @@ const editDomo = (e) => {
     let newData = {
     id: e.target.dataset.domoid,
     newTalent: newTalent,
-    _csrf: e.target.dataset.csrf,
+    _csrf: csrfToken,
+    name: e.target.dataset.name,
+        age: e.target.dataset.age,
     };
     sendAjax('POST', '/update', newData, function() {
-        console.log("we are here");
-        //loadDomosFromServer();
     });
     //return false;
 };
@@ -100,6 +103,7 @@ const setup = function(csrf) {
 // get token when you need it and load react components
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
+        csrfToken = result.csrfToken;
         setup(result.csrfToken);
     });
 };

@@ -1,6 +1,8 @@
 "use strict";
 
-// add react components for our Domo app
+// global csrfToken
+var csrfToken; // add react components for our Domo app
+
 var handleDomo = function handleDomo(e) {
   e.preventDefault();
   $("#domoMessage").animate({
@@ -88,7 +90,10 @@ var DomoList = function DomoList(props) {
       type: "submit",
       value: "Edit Talent",
       onClick: editDomo,
-      "data-domoid": domo._id
+      "data-domoid": domo._id,
+      "data-csrf": props.csrf,
+      "data-name": domo.name,
+      "data-age": domo.age
     }));
   });
   return /*#__PURE__*/React.createElement("div", {
@@ -97,13 +102,15 @@ var DomoList = function DomoList(props) {
 };
 
 var editDomo = function editDomo(e) {
-  console.log(e.target.dataset.domoid);
-  var domoid = e.target.dataset.domoid;
-  var newTalent = window.prompt("What's the Domo's new talent?"); //console.log(newTalent);
-
-  sendAjax('POST', '/update', newTalent, function () {
-    console.log("we are here"); //loadDomosFromServer();
-  }); //return false;
+  var newTalent = window.prompt("What's the Domo's new talent?");
+  var newData = {
+    id: e.target.dataset.domoid,
+    newTalent: newTalent,
+    _csrf: csrfToken,
+    name: e.target.dataset.name,
+    age: e.target.dataset.age
+  };
+  sendAjax('POST', '/update', newData, function () {}); //return false;
 }; // add domos from server and render a domo list
 
 
@@ -129,6 +136,7 @@ var setup = function setup(csrf) {
 
 var getToken = function getToken() {
   sendAjax('GET', '/getToken', null, function (result) {
+    csrfToken = result.csrfToken;
     setup(result.csrfToken);
   });
 }; // when page loads, call getToken method

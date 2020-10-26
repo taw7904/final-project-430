@@ -13,11 +13,23 @@ const makerPage = (req, res) => {
   });
 };
 
-const updateDomo = (req, res) => {
-  // shoud have to enter something to get here so don't need to check on error for this
-  console.log('hello there');
-};
+const updateDomo = (req, res) =>
+/* const newDomoData = {
+    talent: req.body.talent
+    }; */
 
+  Domo.DomoModel.findById(req.body.id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+    if (!docs) {
+      return res.json({ error: 'No domos found' });
+    }
+    console.log({ domos: docs });
+    // return res.json({ domos: docs });
+    console.log(req.body);
+  });
 const makeDomo = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.talent) {
     return res.status(400).json({ error: 'RAWR! Name, age, and talent are required.' });

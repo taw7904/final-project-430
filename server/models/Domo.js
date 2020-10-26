@@ -9,7 +9,6 @@ let DomoModel = {};
 // converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
-const setTalent = (talent) => _.escape(talent).trim();
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -54,6 +53,13 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
   return DomoModel.find(search).select('name age talent').lean().exec(callback);
+};
+
+DomoSchema.statics.findById = (id, callback) => {
+  const search = {
+    domoid: convertId(id),
+  };
+  return DomoModel.find(search).select('_id').lean().exec(callback);
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);
