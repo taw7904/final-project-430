@@ -14,10 +14,6 @@ const makerPage = (req, res) => {
 };
 
 const updateDomo = (req, res) => {
-/* const newDomoData = {
-    talent: req.body.talent
-    }; */
-
   Domo.DomoModel.findById(req.body.id, (err, doc) => {
     if (err) {
       console.log(err);
@@ -26,21 +22,20 @@ const updateDomo = (req, res) => {
     if (!doc) {
       return res.json({ error: 'No domos found' });
     }
-  let updateDomo = doc;
-  updateDomo.talent = req.body.talent;
-      console.log(updateDomo);
-  const domoPromise = updateDomo.save();
+    const editDomo = doc;
+    editDomo.talent = req.body.talent;
+    console.log(editDomo);
+    const domoPromise = editDomo.save();
 
-  domoPromise.then(() => res.json({ redirect: '/maker' }));
+    domoPromise.then(() => res.json({ redirect: '/maker' }));
 
-  domoPromise.catch((err2) => {
-    console.log(err2);
-    return res.status(400).json({ error: 'An error occured' });
-  });
-  return domoPromise;
+    domoPromise.catch((err2) => {
+      console.log(err2);
+      return res.status(400).json({ error: 'An error occured' });
+    });
+    return domoPromise;
   });
 };
-
 
 const makeDomo = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.talent) {
