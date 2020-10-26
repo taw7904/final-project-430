@@ -14,8 +14,8 @@ const makerPage = (req, res) => {
 };
 
 const updateDomo = (req, res) => {
-  //shoud have to enter something to get here so don't need to check on error for this
-    console.log("hello there");
+  // shoud have to enter something to get here so don't need to check on error for this
+  console.log('hello there');
 };
 
 const makeDomo = (req, res) => {

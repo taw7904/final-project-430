@@ -52,7 +52,7 @@ const DomoList = function(props) {
                 <h3 className="domoName">Name: {domo.name}</h3>
                 <h3 className="domoAge">Age: {domo.age}</h3>
                 <h3 className="domoTalent">Talent: {domo.talent}</h3>
-                <input className="editDomo" type="submit" value="Edit Talent" onClick={editDomo} data-domoid={domo._id} />
+                <input className="editDomo" type="submit" value="Edit Talent" onClick={editDomo} data-domoid={domo._id} data-csrf={props.csrf} />
             </div>
         );
     });
@@ -63,11 +63,14 @@ const DomoList = function(props) {
 };
 
 const editDomo = (e) => {
-    console.log(e.target.dataset.domoid);
-    const domoid = e.target.dataset.domoid;
     const newTalent = window.prompt("What's the Domo's new talent?");
-    //console.log(newTalent);
-    sendAjax('POST', '/update', newTalent, function() {
+    
+    let newData = {
+    id: e.target.dataset.domoid,
+    newTalent: newTalent,
+    _csrf: e.target.dataset.csrf,
+    };
+    sendAjax('POST', '/update', newData, function() {
         console.log("we are here");
         //loadDomosFromServer();
     });

@@ -19,7 +19,7 @@ const router = (app) => {
   // need to be logged in to view or make characters
   app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Domo.make);
-    app.post('/update', mid.requiresLogin, controllers.Domo.update);
+  app.post('/update', mid.requiresLogin, controllers.Domo.update);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
