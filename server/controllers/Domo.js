@@ -13,14 +13,20 @@ const makerPage = (req, res) => {
   });
 };
 
+const updateDomo = (req, res) => {
+  //shoud have to enter something to get here so don't need to check on error for this
+    console.log("hello there");
+};
+
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'RAWR! Both name and age are required' });
+  if (!req.body.name || !req.body.age || !req.body.talent) {
+    return res.status(400).json({ error: 'RAWR! Name, age, and talent are required.' });
   }
 
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    talent: req.body.talent,
     owner: req.session.account._id,
   };
 
@@ -57,3 +63,4 @@ const getDomos = (request, response) => {
 module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;
 module.exports.make = makeDomo;
+module.exports.update = updateDomo;

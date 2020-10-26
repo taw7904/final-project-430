@@ -7,7 +7,7 @@ var handleDomo = function handleDomo(e) {
     width: 'hide'
   }, 350);
 
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
+  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoTalent").val() == '') {
     handleError("RAWR! All fields are required");
     return false;
   }
@@ -41,6 +41,13 @@ var DomoForm = function DomoForm(props) {
     type: "text",
     name: "age",
     placeholder: "Domo Age"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "talent"
+  }, "Talent: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoTalent",
+    type: "text",
+    name: "talent",
+    placeholder: "Special Talent"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -74,11 +81,29 @@ var DomoList = function DomoList(props) {
       className: "domoName"
     }, "Name: ", domo.name), /*#__PURE__*/React.createElement("h3", {
       className: "domoAge"
-    }, "Age: ", domo.age));
+    }, "Age: ", domo.age), /*#__PURE__*/React.createElement("h3", {
+      className: "domoTalent"
+    }, "Talent: ", domo.talent), /*#__PURE__*/React.createElement("input", {
+      className: "editDomo",
+      type: "submit",
+      value: "Edit Talent",
+      onClick: editDomo,
+      "data-domoid": domo._id
+    }));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "domoList"
   }, domoNodes);
+};
+
+var editDomo = function editDomo(e) {
+  console.log(e.target.dataset.domoid);
+  var domoid = e.target.dataset.domoid;
+  var newTalent = window.prompt("What's the Domo's new talent?"); //console.log(newTalent);
+
+  sendAjax('POST', '/update', newTalent, function () {
+    console.log("we are here"); //loadDomosFromServer();
+  }); //return false;
 }; // add domos from server and render a domo list
 
 

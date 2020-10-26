@@ -3,7 +3,7 @@ const handleDomo = (e) => {
     e.preventDefault();
     $("#domoMessage").animate({width:'hide'},350);
     
-    if($("#domoName").val() == '' || $("#domoAge").val()=='') {
+    if($("#domoName").val() == '' || $("#domoAge").val()=='' || $("#domoTalent").val()=='') {
         handleError("RAWR! All fields are required");
         return false;
     }
@@ -27,6 +27,8 @@ const DomoForm = (props) => {
       <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
       <label htmlFor="age">Age: </label>
       <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
+      <label htmlFor="talent">Talent: </label>
+      <input id="domoTalent" type="text" name="talent" placeholder="Special Talent"/>
       <input type="hidden" name="_csrf" value={props.csrf} />
       <input className="makeDomoSubmit" type="submit" value="Make Domo" />
     </form>
@@ -49,6 +51,8 @@ const DomoList = function(props) {
             <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="domoName">Name: {domo.name}</h3>
                 <h3 className="domoAge">Age: {domo.age}</h3>
+                <h3 className="domoTalent">Talent: {domo.talent}</h3>
+                <input className="editDomo" type="submit" value="Edit Talent" onClick={editDomo} data-domoid={domo._id} />
             </div>
         );
     });
@@ -56,6 +60,18 @@ const DomoList = function(props) {
     return (
     <div className="domoList">{domoNodes}</div>
     );
+};
+
+const editDomo = (e) => {
+    console.log(e.target.dataset.domoid);
+    const domoid = e.target.dataset.domoid;
+    const newTalent = window.prompt("What's the Domo's new talent?");
+    //console.log(newTalent);
+    sendAjax('POST', '/update', newTalent, function() {
+        console.log("we are here");
+        //loadDomosFromServer();
+    });
+    //return false;
 };
 
 // add domos from server and render a domo list
