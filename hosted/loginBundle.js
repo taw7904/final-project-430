@@ -4,7 +4,7 @@
 // send AJAX request to login POST url
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#showMessage").animate({
     width: 'hide'
   }, 350);
 
@@ -21,7 +21,7 @@ var handleLogin = function handleLogin(e) {
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#showMessage").animate({
     width: 'hide'
   }, 350);
 
@@ -164,13 +164,13 @@ $(document).ready(function () {
 // functions to be shared across bundles
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#showMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({
+  $("#showMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;

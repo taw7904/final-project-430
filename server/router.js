@@ -7,7 +7,7 @@ const mid = require('./middleware');
 // everything in between is any of middleware operations
 const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
-  app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
+  app.get('/getShows', mid.requiresLogin, controllers.Show.getShows);
   // need secure for login
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
@@ -17,9 +17,9 @@ const router = (app) => {
   // make sure they are logged in to be able to log out
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   // need to be logged in to view or make characters
-  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Domo.make);
-  app.post('/update', mid.requiresLogin, controllers.Domo.update);
+  app.get('/maker', mid.requiresLogin, controllers.Show.makerPage);
+  app.post('/maker', mid.requiresLogin, controllers.Show.make);
+  app.post('/update', mid.requiresLogin, controllers.Show.update);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

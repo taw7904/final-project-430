@@ -2,88 +2,116 @@
 let csrfToken;
 
 // add react components for our Domo app
-const handleDomo = (e) => {
+const handleShow = (e) => {
     e.preventDefault();
-    $("#domoMessage").animate({width:'hide'},350);
+    $("#showMessage").animate({width:'hide'},350);
     
-    if($("#domoName").val() == '' || $("#domoAge").val()=='' || $("#domoTalent").val()=='') {
+    if($("#showName").val() == '' || $("#showRating").val()=='' || $("#showService").val()=='' || $("#showStatus").val()=='') {
         handleError("RAWR! All fields are required");
         return false;
     }
-    sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function() {
-        loadDomosFromServer();
+    sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), function() {
+        loadShowsFromServer();
     });
     return false;
 };
 
 // create React JSX for Add Domo form
-const DomoForm = (props) => {
+const ShowForm = (props) => {
   return (
-    <form id="domoForm" 
-      onSubmit={handleDomo}
-      name="domoForm"
+    <form id="showForm" 
+      onSubmit={handleShow}
+      name="showForm"
       action="/maker"
       method="POST"
-      className="domoForm"
+      className="showForm"
       >
+          <div className="inputFields">
       <label htmlFor="name">Name: </label>
-      <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-      <label htmlFor="age">Age: </label>
-      <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
-      <label htmlFor="talent">Talent: </label>
-      <input id="domoTalent" type="text" name="talent" placeholder="Special Talent"/>
+      <input id="showName" type="text" name="name" placeholder="Show Name"/>
+              </div>
+          <div className="inputFields">
+      <label htmlFor="rating">Rating: </label>
+      <input id="showRating" type="text" name="rating" placeholder="Show Rating"/>
+              </div>
+          <div className="inputFields">
+      <label htmlFor="service">Service: </label>
+            <select id="showService" name="service">
+            <option value="Netflix">Netflix</option>
+            <option value="HBO">HBO</option>
+                <option value="Disney+">Disney+</option>
+                <option value="Hulu">Hulu</option>
+                <option value="Amazon Prime">Amazon Prime</option>
+                <option value="Sling TV">Sling TV</option>
+                <option value="Other">Other</option>
+            </select>
+              </div>
+          <div className="inputFields">
+      <label htmlFor="status">Status: </label>
+          <select id="showStatus" name="status">
+      <option value="Want to Watch">Want to Watch</option>
+        <option value="Complete">Complete</option>
+            </select>
+              </div>
+          <div className="inputFields btnHolder">
       <input type="hidden" name="_csrf" value={props.csrf} />
-      <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+      <input className="makeShowSubmit" type="submit" value="Add Show" />
+              </div>
     </form>
   );  
 };
 
 // determine what to draw
-const DomoList = function(props) {
-  if(props.domos.length===0) {
+const ShowList = function(props) {
+  if(props.shows.length===0) {
       return (
-      <div className="domoList">
-          <h3 className="emptyDomo">No Domos yet</h3>
+      <div className="showList">
+          <h3 className="emptyShow">No shows yet</h3>
           </div>
       );
   } 
     
-    const domoNodes = props.domos.map(function(domo) {
+    const showNodes = props.shows.map(function(show) {
         return (
-            <div key={domo._id} className="domo">
-            <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="domoName">Name: {domo.name}</h3>
-                <h3 className="domoAge">Age: {domo.age}</h3>
-                <h3 className="domoTalent">Talent: {domo.talent}</h3>
-                <input className="editDomo" type="submit" value="Edit Talent" onClick={editDomo} data-domoid={domo._id} data-csrf={props.csrf} data-name={domo.name} data-age={domo.age} />
+            <div key={show._id} className="show">
+            <img src={show.logo} alt="show face" className="showFace" />
+                <h3 className="showName">Name: {show.name}</h3>
+                <h3 className="showRating">Rating: {show.rating}</h3>
+                <h3 className="showService">Service: {show.service}</h3>
+                <h3 className="showStatus">Status: {show.status}</h3>
+                <input className="editShow" type="submit" value="Edit Show" onClick={editShow} data-showid={show._id} data-csrf={props.csrf} data-name={show.name} data-rating={show.rating} data-service={show.service} data-logo={show.logo}/>
             </div>
         );
     });
     
     return (
-    <div className="domoList">{domoNodes}</div>
+    <div className="showList">{showNodes}</div>
     );
 };
 
-const editDomo = (e) => {
-    const newTalent = window.prompt("What's the Domo's new talent?");
+// COME BACK TO EDIT THIS
+const editShow = (e) => {
+    const newStatus = window.prompt("What's the status?");
     
     let newData = {
-    id: e.target.dataset.domoid,
-    talent: newTalent,
+    id: e.target.dataset.showid,
+    status: newStatus,
     _csrf: csrfToken,
     name: e.target.dataset.name,
-        age: e.target.dataset.age,
+    rating: e.target.dataset.rating,
+    service: e.target.dataset.service,
+        logo: e.target.dataset.logo,
     };
-    sendAjax('POST', '/update', newData, loadDomosFromServer);
+    
+    sendAjax('POST', '/update', newData, loadShowsFromServer);
     //return false;
 };
 
 // add domos from server and render a domo list
-const loadDomosFromServer = () => {
-    sendAjax('GET', '/getDomos', null, (data) => {
+const loadShowsFromServer = () => {
+    sendAjax('GET', '/getShows', null, (data) => {
        ReactDOM.render(
-       <DomoList domos={data.domos} />, document.querySelector("#domos")
+       <ShowList shows={data.shows} />, document.querySelector("#shows")
        ); 
     });
 };
@@ -91,12 +119,12 @@ const loadDomosFromServer = () => {
 // setup to call server to get domos
 const setup = function(csrf) {
   ReactDOM.render(
-  <DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
+  <ShowForm csrf={csrf} />, document.querySelector("#makeShow")
   );
     ReactDOM.render(
-    <DomoList domos={[]} />, document.querySelector("#domos")
+    <ShowList shows={[]} />, document.querySelector("#shows")
     );
-    loadDomosFromServer();
+    loadShowsFromServer();
 };
 
 // get token when you need it and load react components
