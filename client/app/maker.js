@@ -27,16 +27,14 @@ const ShowForm = (props) => {
       className="showForm"
       >
           <div className="inputFields">
-      <label htmlFor="name">Name: </label>
-      <input id="showName" type="text" name="name" placeholder="Show Name"/>
+      <input id="showName" type="text" name="name" placeholder="Title of Show"/>
               </div>
           <div className="inputFields">
-      <label htmlFor="rating">Rating: </label>
-      <input id="showRating" type="text" name="rating" placeholder="Show Rating"/>
+      <input id="showRating" type="text" name="rating" placeholder="Rating"/>
               </div>
           <div className="inputFields">
-      <label htmlFor="service">Service: </label>
-            <select id="showService" name="service">
+            <select id="showService" name="service" defaultValue="Streaming Service">
+            <option value="Streaming Service" disabled>Streaming Service</option>
             <option value="Netflix">Netflix</option>
             <option value="HBO">HBO</option>
                 <option value="Disney+">Disney+</option>
@@ -47,9 +45,9 @@ const ShowForm = (props) => {
             </select>
               </div>
           <div className="inputFields">
-      <label htmlFor="status">Status: </label>
-          <select id="showStatus" name="status">
-      <option value="Want to Watch">Want to Watch</option>
+          <select id="showStatus" name="status" defaultValue="Watch Status">
+              <option value="Watch Status" disabled>Watch Status</option>
+        <option value="Watchlist">Watchlist</option>
         <option value="Complete">Complete</option>
             </select>
               </div>
@@ -74,11 +72,10 @@ const ShowList = function(props) {
     const showNodes = props.shows.map(function(show) {
         return (
             <div key={show._id} className="show">
-            <img src={show.logo} alt="show face" className="showFace" />
-                <h3 className="showName">Name: {show.name}</h3>
-                <h3 className="showRating">Rating: {show.rating}</h3>
-                <h3 className="showService">Service: {show.service}</h3>
-                <h3 className="showStatus">Status: {show.status}</h3>
+            <img src={show.logo} alt="Streaming Service Logo" className="showLogo" />
+                <h3 className="showName">{show.name}</h3>
+                <h3 className="showRating">Rated {show.rating}</h3>
+                <h3 className="showStatus">{show.status}</h3>
                 <input className="editShow" type="submit" value="Edit Show" onClick={editShow} data-showid={show._id} data-csrf={props.csrf} data-name={show.name} data-rating={show.rating} data-service={show.service} data-logo={show.logo}/>
             </div>
         );

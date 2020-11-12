@@ -20,35 +20,39 @@ html, body {
 
 nav {
     width: 100%;
-    height: 80px;
+    height: 60px;
     background-color: #f0806c;
     margin-bottom: 50px;
-}
-
-nav:nth-child(1) {
-    padding-left: 25px;
+    padding-top: 15px;
 }
 
 .navlink {
     color: black;
     font-size: 20px;
-    float: left;
+    float: right;
     padding: 5px;
 }
 
-.navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active {
+.navlink a {
     color: black;
     text-decoration: none;
     border-radius: 4px;
-    background-color: #ffefeb;
-    transition: background-color 0.3s ease;
+    background-color: none;
     width: 100px;
     height: 200px;
+    font-weight: bold;
+}
+
+#loginButton {
+    margin-right: 15px;
+}
+
+#signupButton, #logoutButton {
+    margin-right: 20px;
 }
 
 .navlink a:hover {
-    transition: background-color 0.3s ease;
-    background-color: #fcc6b1;
+    color: #ffefeb;
 }
 
 .showForm {
@@ -84,6 +88,15 @@ nav:nth-child(1) {
     padding-left: 5px;
     width: 195px;
     font-family: 'Hind Guntur', sans-serif;
+    border: none;
+    border-bottom: 2px solid #f0806c;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 300px;
+}
+
+.showForm input[type=text]:focus {
+    outline: none;
+    border-bottom: 2px solid #7d7d7d;
 }
 
 .btnHolder {
@@ -91,7 +104,7 @@ nav:nth-child(1) {
     width: 300px;
 }
 
-.makeShowSubmit {
+.makeShowSubmit, .editShow {
     transition: background-color 0.4s ease;
     display: inline;
     width: 90px;
@@ -103,10 +116,8 @@ nav:nth-child(1) {
     text-decoration: none;
     margin-top: 15px;
     font-family: 'Hind Guntur', sans-serif;
-}
-
-.makeShowSubmit:link, .makeShowSubmit:visited, .makeShowSubmit:hover, .makeShowSubmit:active {
-    color: black;
+    padding-top: 4px;
+    cursor: pointer;
 }
 
 .makeShowSubmit:hover {
@@ -114,8 +125,13 @@ nav:nth-child(1) {
     background-color: #f0806c;
 }
 
+.editShow:hover {
+    background-color: #f0806c;
+    transition: background-color 0.2s ease;
+}
+
 .mainForm {
-    height: 150px;
+    height: 130px;
     width: 300px;
     margin: 0 auto;
     margin-top: 325px;
@@ -123,6 +139,10 @@ nav:nth-child(1) {
     font-size: 1.2em;
     background-color: #f0806c;
     border-radius: 10px;
+}
+
+#signupForm {
+    height: 170px;
 }
 
 .mainForm label {
@@ -142,12 +162,13 @@ nav:nth-child(1) {
     font-size: 1.2em;
     width: 100px;
     background-color: #ffefeb;
-    border-radius: 2px;
+    border-radius: 15px;
     border: none;
     color: black;
     text-decoration: none;
     font-family: 'Hind Guntur', sans-serif;
     height: 40px;
+    cursor: pointer;
 }
 
 .formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
@@ -159,16 +180,24 @@ nav:nth-child(1) {
     background-color: #fcc6b1;
 }
 
+.formSubmit:focus {
+    outline: none;
+}
+
 #user, #pass, #pass2 {
     font-family: 'Hind Guntur', sans-serif;
     height: 30px;
     padding-left: 5px;
     margin-bottom: 5px;
+    border: none;
+    border-bottom: 2px solid #fcc6b1;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 300px;
 }
 
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
+    border-bottom: 2px solid #7d7d7d;
 }
 
 #showMessage {
@@ -226,28 +255,27 @@ nav:nth-child(1) {
     width: 95%;
     margin: 0 auto;
     margin-top: 4px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     border-radius: 8px;
     background-color: #fcc6b1;
     padding: 10px;
-    min-height:60px;
     overflow: hidden;
+    height: 100px;
 }
 
 .show:hover {
     transition: border-color 0.2s ease-out;
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 0.2s ease-out;
-    background-color: #f0806c;
+    background-color: #ffafa1;
 }
 
-img.showFace {
-    margin-left: 25px;
+img.showLogo {
+    margin-left: 15px;
     margin-right: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 4px;
-    margin-top:10px;
+    height: 55px;
+    width: 55px;
+    margin-top:20px;
     float:left;
 }
 
@@ -263,32 +291,27 @@ h3.showName {
     float: left;
     width: 25%;
     padding-left: 15px;
-    font-size: 1.5em;
-    font-weight: normal;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding-right: 60px;
 }
 
-h3.showRating, h3.showService, h3.showStatus {
+h3.showRating, h3.showStatus {
     float: left;
     text-align: left;
     width: 13%;
     padding-right: 40px;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: normal;
 }
 
 h3.showStatus {
-    width: 20%;
+    width: 15%;
 }
 
 .editShow {
     float: right;
     font-family: 'Hind Guntur', sans-serif;
-}
-
-.show:first-child {
-    margin-top: 10px;
-}
-
-.show:last-child {
-    margin-bottom:10px;
+    padding: 0;
+    margin-top: 65px;
 }

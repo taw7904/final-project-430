@@ -31,30 +31,28 @@ var ShowForm = function ShowForm(props) {
     className: "showForm"
   }, /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "name"
-  }, "Name: "), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("input", {
     id: "showName",
     type: "text",
     name: "name",
-    placeholder: "Show Name"
+    placeholder: "Title of Show"
   })), /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "rating"
-  }, "Rating: "), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("input", {
     id: "showRating",
     type: "text",
     name: "rating",
-    placeholder: "Show Rating"
+    placeholder: "Rating"
   })), /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "service"
-  }, "Service: "), /*#__PURE__*/React.createElement("select", {
+  }, /*#__PURE__*/React.createElement("select", {
     id: "showService",
-    name: "service"
+    name: "service",
+    defaultValue: "Streaming Service"
   }, /*#__PURE__*/React.createElement("option", {
+    value: "Streaming Service",
+    disabled: true
+  }, "Streaming Service"), /*#__PURE__*/React.createElement("option", {
     value: "Netflix"
   }, "Netflix"), /*#__PURE__*/React.createElement("option", {
     value: "HBO"
@@ -70,14 +68,16 @@ var ShowForm = function ShowForm(props) {
     value: "Other"
   }, "Other"))), /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "status"
-  }, "Status: "), /*#__PURE__*/React.createElement("select", {
+  }, /*#__PURE__*/React.createElement("select", {
     id: "showStatus",
-    name: "status"
+    name: "status",
+    defaultValue: "Watch Status"
   }, /*#__PURE__*/React.createElement("option", {
-    value: "Want to Watch"
-  }, "Want to Watch"), /*#__PURE__*/React.createElement("option", {
+    value: "Watch Status",
+    disabled: true
+  }, "Watch Status"), /*#__PURE__*/React.createElement("option", {
+    value: "Watchlist"
+  }, "Watchlist"), /*#__PURE__*/React.createElement("option", {
     value: "Complete"
   }, "Complete"))), /*#__PURE__*/React.createElement("div", {
     className: "inputFields btnHolder"
@@ -108,17 +108,15 @@ var ShowList = function ShowList(props) {
       className: "show"
     }, /*#__PURE__*/React.createElement("img", {
       src: show.logo,
-      alt: "show face",
-      className: "showFace"
+      alt: "Streaming Service Logo",
+      className: "showLogo"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "showName"
-    }, "Name: ", show.name), /*#__PURE__*/React.createElement("h3", {
+    }, show.name), /*#__PURE__*/React.createElement("h3", {
       className: "showRating"
-    }, "Rating: ", show.rating), /*#__PURE__*/React.createElement("h3", {
-      className: "showService"
-    }, "Service: ", show.service), /*#__PURE__*/React.createElement("h3", {
+    }, "Rated ", show.rating), /*#__PURE__*/React.createElement("h3", {
       className: "showStatus"
-    }, "Status: ", show.status), /*#__PURE__*/React.createElement("input", {
+    }, show.status), /*#__PURE__*/React.createElement("input", {
       className: "editShow",
       type: "submit",
       value: "Edit Show",

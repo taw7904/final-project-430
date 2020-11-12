@@ -46,20 +46,16 @@ var LoginWindow = function LoginWindow(props) {
     action: "/login",
     method: "POST",
     className: "mainForm"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "username"
-  }, "Username: "), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("input", {
     id: "user",
     type: "text",
     name: "username",
-    placeholder: "username"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "pass"
-  }, "Password: "), /*#__PURE__*/React.createElement("input", {
+    placeholder: "Username"
+  }), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
     name: "pass",
-    placeholder: "password"
+    placeholder: "Password"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -67,7 +63,7 @@ var LoginWindow = function LoginWindow(props) {
   }), /*#__PURE__*/React.createElement("input", {
     className: "formSubmit",
     type: "submit",
-    value: "Sign in"
+    value: "SIGN IN"
   }));
 }; // same thing as above, but with sign up
 
@@ -80,27 +76,21 @@ var SignupWindow = function SignupWindow(props) {
     action: "/signup",
     method: "POST",
     className: "mainForm"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "username"
-  }, "Username: "), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("input", {
     id: "user",
     type: "text",
     name: "username",
-    placeholder: "username"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "pass"
-  }, "Password: "), /*#__PURE__*/React.createElement("input", {
+    placeholder: "Username"
+  }), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
     name: "pass",
-    placeholder: "password"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "pass2"
-  }, "Password: "), /*#__PURE__*/React.createElement("input", {
+    placeholder: "Password"
+  }), /*#__PURE__*/React.createElement("input", {
     id: "pass2",
     type: "password",
     name: "pass2",
-    placeholder: "retype password"
+    placeholder: "Retype Password"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -108,7 +98,7 @@ var SignupWindow = function SignupWindow(props) {
   }), /*#__PURE__*/React.createElement("input", {
     className: "formSubmit",
     type: "submit",
-    value: "Sign Up"
+    value: "SIGN UP"
   }));
 }; // create the login form and token with it
 // ReactDOM.render first arg takes JSX of UI along with variables as attributes
