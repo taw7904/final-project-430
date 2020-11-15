@@ -40,7 +40,7 @@ var ShowForm = function ShowForm(props) {
     className: "inputFields"
   }, /*#__PURE__*/React.createElement("select", {
     id: "showRating",
-    name: "status",
+    name: "rating",
     defaultValue: "Rating"
   }, /*#__PURE__*/React.createElement("option", {
     value: "Rating",

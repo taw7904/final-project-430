@@ -30,7 +30,7 @@ const ShowForm = (props) => {
       <input id="showName" type="text" name="name" placeholder="Title of Show"/>
               </div>
           <div className="inputFields">
-              <select id="showRating" name="status" defaultValue="Rating">
+              <select id="showRating" name="rating" defaultValue="Rating">
               <option value="Rating" disabled >Rating</option>
               <option value="TV-Y">TV-Y</option>
               <option value="TV-Y7">TV-Y7</option>
