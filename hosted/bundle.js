@@ -1,7 +1,7 @@
 "use strict";
 
 // global csrfToken
-var csrfToken; // add react components for our Domo app
+var csrfToken; // add react components for the app
 
 var handleShow = function handleShow(e) {
   e.preventDefault();
@@ -10,7 +10,7 @@ var handleShow = function handleShow(e) {
   }, 350);
 
   if ($("#showName").val() == '' || $("#showRating").val() == '' || $("#showService").val() == '' || $("#showStatus").val() == '') {
-    handleError("RAWR! All fields are required");
+    handleError("All fields are required");
     return false;
   }
 
@@ -18,7 +18,7 @@ var handleShow = function handleShow(e) {
     loadShowsFromServer();
   });
   return false;
-}; // create React JSX for Add Domo form
+}; // create React JSX for Add Input Show form
 
 
 var ShowForm = function ShowForm(props) {
@@ -38,12 +38,28 @@ var ShowForm = function ShowForm(props) {
     placeholder: "Title of Show"
   })), /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("select", {
     id: "showRating",
-    type: "text",
-    name: "rating",
-    placeholder: "Rating"
-  })), /*#__PURE__*/React.createElement("div", {
+    name: "status",
+    defaultValue: "Rating"
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "Rating",
+    disabled: true
+  }, "Rating"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-Y"
+  }, "TV-Y"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-Y7"
+  }, "TV-Y7"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-Y7-FV"
+  }, "TV-Y7-FV"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-G"
+  }, "TV-G"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-PG"
+  }, "TV-PG"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-14"
+  }, "TV-14"), /*#__PURE__*/React.createElement("option", {
+    value: "TV-MA"
+  }, "TV-MA"))), /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
   }, /*#__PURE__*/React.createElement("select", {
     id: "showService",
@@ -90,7 +106,7 @@ var ShowForm = function ShowForm(props) {
     type: "submit",
     value: "Add Show"
   })));
-}; // determine what to draw
+}; // determine what to print out for each show
 
 
 var ShowList = function ShowList(props) {
@@ -114,29 +130,37 @@ var ShowList = function ShowList(props) {
       className: "showName"
     }, show.name), /*#__PURE__*/React.createElement("h3", {
       className: "showRating"
-    }, "Rated ", show.rating), /*#__PURE__*/React.createElement("h3", {
+    }, show.rating), /*#__PURE__*/React.createElement("h3", {
       className: "showStatus"
     }, show.status), /*#__PURE__*/React.createElement("input", {
       className: "editShow",
       type: "submit",
-      value: "Edit Show",
+      value: "Change Status",
       onClick: editShow,
       "data-showid": show._id,
       "data-csrf": props.csrf,
       "data-name": show.name,
       "data-rating": show.rating,
       "data-service": show.service,
+      "data-status": show.status,
       "data-logo": show.logo
     }));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "showList"
   }, showNodes);
-}; // COME BACK TO EDIT THIS
+}; // Change the status of the show depending on if it was on the watchlist or complete
 
 
 var editShow = function editShow(e) {
-  var newStatus = window.prompt("What's the status?");
+  var newStatus;
+
+  if (e.target.dataset.status === 'Watchlist') {
+    newStatus = "Complete";
+  } else {
+    newStatus = "Watchlist";
+  }
+
   var newData = {
     id: e.target.dataset.showid,
     status: newStatus,
@@ -146,8 +170,8 @@ var editShow = function editShow(e) {
     service: e.target.dataset.service,
     logo: e.target.dataset.logo
   };
-  sendAjax('POST', '/update', newData, loadShowsFromServer); //return false;
-}; // add domos from server and render a domo list
+  sendAjax('POST', '/update', newData, loadShowsFromServer);
+}; // add the shows from the server and render the list
 
 
 var loadShowsFromServer = function loadShowsFromServer() {
@@ -156,7 +180,7 @@ var loadShowsFromServer = function loadShowsFromServer() {
       shows: data.shows
     }), document.querySelector("#shows"));
   });
-}; // setup to call server to get domos
+}; // setup to call server to get the shows
 
 
 var setup = function setup(csrf) {

@@ -5,7 +5,7 @@ const handleLogin = (e) => {
     $("#showMessage").animate({width:'hide'},350);
     
     if($("#user").val() == '' || $("#pass").val() == '') {
-        handleError("RAWR! Username or password is empty");
+        handleError("Username or password is empty");
         return false;
     }
     
@@ -20,7 +20,7 @@ const handleSignup = (e) => {
     $("#showMessage").animate({width:'hide'},350);
     
     if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-        handleError("RAWR! Passwords do not match");
+        handleError("Passwords do not match");
         return false;
     }
     
@@ -28,10 +28,7 @@ const handleSignup = (e) => {
     return false;
 };
 
-// here is where react starts, using JSX syntax to create HTML like objects in JS
-// templating language in React to quickly create and render UI at higher speed/optimization
-// secured against unsafe input and has 'this' context so each object made of it can have 
-// own variable scope. Allows us to re-render/update something on screen on the fly
+// create login window template
 const LoginWindow = (props) => {
   return (
     <form id="loginForm" 
@@ -41,6 +38,7 @@ const LoginWindow = (props) => {
       method="POST"
       className="mainForm"
       >
+          
       <input id="user" type="text" name="username" placeholder="Username"/>
       <input id="pass" type="password" name="pass" placeholder="Password"/>
       <input type="hidden" name="_csrf" value={props.csrf} />
@@ -68,9 +66,7 @@ const SignupWindow = (props) => {
   );  
 };
 
-// create the login form and token with it
-// ReactDOM.render first arg takes JSX of UI along with variables as attributes
-// second argument is what container to add new React UI to
+// create the login form and token with it and render it to the content area
 const createLoginWindow = (csrf) => {
     ReactDOM.render(
         <LoginWindow csrf={csrf} />,
@@ -87,7 +83,6 @@ const createSignupWindow = (csrf) => {
 };
 
 // attach events to page buttons. on click, UI will re-render
-// default to the login page
 const setup = (csrf) => {
   const loginButton = document.querySelector("#loginButton");
     const signupButton = document.querySelector("#signupButton");

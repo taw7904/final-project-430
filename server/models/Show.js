@@ -5,7 +5,6 @@ const _ = require('underscore');
 
 let ShowModel = {};
 
-// mongose.Types.ObjectID is a function that
 // converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
@@ -42,7 +41,6 @@ const ShowSchema = new mongoose.Schema({
     trim: true,
   },
 
-
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -56,10 +54,10 @@ const ShowSchema = new mongoose.Schema({
 });
 
 ShowSchema.statics.toAPI = (doc) => ({
-  name: doc.name,
-  rating: doc.rating,
-  service: doc.service,
-  status: doc.status,
+    name: doc.name,
+    rating: doc.rating,
+    service: doc.service,
+    status: doc.status,
     logo: doc.logo,
 });
 

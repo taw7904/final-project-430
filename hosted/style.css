@@ -12,10 +12,9 @@ html, body {
 
 #logo {
     height: 40px;
-    width: 40;
-    padding-top: 5px;
     float:left;
     border-radius: 8px;
+    padding-left: 20px;
 }
 
 nav {
@@ -27,14 +26,14 @@ nav {
 }
 
 .navlink {
-    color: black;
+    color: #ffefeb;
     font-size: 20px;
     float: right;
     padding: 5px;
 }
 
 .navlink a {
-    color: black;
+    color: #ffefeb;
     text-decoration: none;
     border-radius: 4px;
     background-color: none;
@@ -52,7 +51,7 @@ nav {
 }
 
 .navlink a:hover {
-    color: #ffefeb;
+    color: #fcc6b1;
 }
 
 .showForm {
@@ -82,7 +81,7 @@ nav {
     color: black;
 }
 
-.showForm input[type=text], #showStatus, #showService {
+.showForm input[type=text], #showRating, #showStatus, #showService {
     float:left;
     height: 30px;
     padding-left: 5px;
@@ -314,4 +313,5 @@ h3.showStatus {
     font-family: 'Hind Guntur', sans-serif;
     padding: 0;
     margin-top: 65px;
+    width: 10%;
 }

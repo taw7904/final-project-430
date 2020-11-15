@@ -2,7 +2,7 @@ const models = require('../models');
 
 const { Show } = models;
 
-// grab all the Domos for a particular user and pass it to the view
+// grab all the user's shows and pass it to the view
 const makerPage = (req, res) => {
   Show.ShowModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -38,8 +38,8 @@ const updateShow = (req, res) => {
 };
 
 const makeShow = (req, res) => {
-  if (!req.body.name || !req.body.rating || !req.body.service) {
-    return res.status(400).json({ error: 'RAWR! Name, rating, service, and status are required.' });
+  if (!req.body.name || !req.body.rating || !req.body.service || !req.body.status) {
+    return res.status(400).json({ error: 'Name, rating, service, and status are all required.' });
   }
     let imgString;
     if(req.body.service==='Netflix') {
@@ -82,8 +82,7 @@ const makeShow = (req, res) => {
   return showPromise;
 };
 
-// get JSON responses of Domos for a user to update client dynamically using React
-// update without changing pages
+// get JSON responses of user's shows and update dynamically 
 const getShows = (request, response) => {
   const req = request;
   const res = response;

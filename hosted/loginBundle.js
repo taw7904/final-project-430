@@ -9,7 +9,7 @@ var handleLogin = function handleLogin(e) {
   }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
-    handleError("RAWR! Username or password is empty");
+    handleError("Username or password is empty");
     return false;
   }
 
@@ -26,16 +26,13 @@ var handleSignup = function handleSignup(e) {
   }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-    handleError("RAWR! Passwords do not match");
+    handleError("Passwords do not match");
     return false;
   }
 
   sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
   return false;
-}; // here is where react starts, using JSX syntax to create HTML like objects in JS
-// templating language in React to quickly create and render UI at higher speed/optimization
-// secured against unsafe input and has 'this' context so each object made of it can have 
-// own variable scope. Allows us to re-render/update something on screen on the fly
+}; // create login window template
 
 
 var LoginWindow = function LoginWindow(props) {
@@ -100,9 +97,7 @@ var SignupWindow = function SignupWindow(props) {
     type: "submit",
     value: "SIGN UP"
   }));
-}; // create the login form and token with it
-// ReactDOM.render first arg takes JSX of UI along with variables as attributes
-// second argument is what container to add new React UI to
+}; // create the login form and token with it and render it to the content area
 
 
 var createLoginWindow = function createLoginWindow(csrf) {
@@ -117,7 +112,6 @@ var createSignupWindow = function createSignupWindow(csrf) {
     csrf: csrf
   }), document.querySelector("#content"));
 }; // attach events to page buttons. on click, UI will re-render
-// default to the login page
 
 
 var setup = function setup(csrf) {
