@@ -4,16 +4,14 @@
 // send AJAX request to login POST url
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
-  $("#showMessage").animate({
-    width: "hide"
-  }, 350);
+  $('#showMessage').fadeIn(4000);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
     handleError("Username or password is empty");
     return false;
-  }
+  } //console.log($("input[name=_csrf]").val());
 
-  console.log($("input[name=_csrf]").val());
+
   sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
   return false;
 }; // handle clicks to the sign up button
@@ -21,9 +19,7 @@ var handleLogin = function handleLogin(e) {
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
-  $("#showMessage").animate({
-    width: 'hide'
-  }, 350);
+  $("#showMessage").fadeIn(4000);
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
     handleError("Passwords do not match");

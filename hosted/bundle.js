@@ -5,9 +5,7 @@ var csrfToken; // add react components for the app
 
 var handleShow = function handleShow(e) {
   e.preventDefault();
-  $("#showMessage").animate({
-    opacity: "1"
-  }, 350);
+  $("#showMessage").fadeIn(4000);
 
   if ($("#showName").val() == '' || $("#showRating").val() == '' || $("#showService").val() == '' || $("#showStatus").val() == '') {
     handleError("All fields are required");
@@ -149,6 +147,70 @@ var ShowList = function ShowList(props) {
   return /*#__PURE__*/React.createElement("div", {
     className: "showList"
   }, showNodes);
+}; // create React JSX for Filtering - come back to this after the filter function is created
+
+
+var FilterForm = function FilterForm(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "filterForm",
+    name: "filterForm",
+    action: "/filter",
+    method: "POST",
+    className: "filterForm"
+  }, "Filter by:", /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "Netflix",
+    value: "Netflix",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Netflix"
+  }, "Netflix"), /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "HBO",
+    value: "HBO",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "HBO"
+  }, "HBO"), /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "Disney+",
+    value: "Disney+",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Disney+"
+  }, "Disney+"), /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "Hulu",
+    value: "Hulu",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Hulu"
+  }, "Hulu"), /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "Amazon",
+    value: "Amazon Prime",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Amazon"
+  }, "Amazon Prime"), /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "Sling",
+    value: "Sling TV",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Sling"
+  }, "Sling TV"), /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    name: "Other",
+    value: "Other",
+    className: "filterBoxes"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "Other"
+  }, "Other"), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }));
 }; // Change the status of the show depending on if it was on the watchlist or complete
 
 
@@ -184,6 +246,9 @@ var loadShowsFromServer = function loadShowsFromServer() {
 
 
 var setup = function setup(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(FilterForm, {
+    csrf: csrf
+  }), document.querySelector("#filtering"));
   ReactDOM.render( /*#__PURE__*/React.createElement(ShowForm, {
     csrf: csrf
   }), document.querySelector("#makeShow"));

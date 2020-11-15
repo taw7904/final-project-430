@@ -55,7 +55,7 @@ const makeShow = (req, res) => {
   } else if (req.body.service === 'Sling TV') {
     imgString = '/assets/img/sling.png';
   } else {
-    imgString = '/assets/img/hulu.png';
+    imgString = '/assets/img/favicon.png';
   }
 
   const showData = {

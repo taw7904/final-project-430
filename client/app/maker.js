@@ -4,7 +4,7 @@ let csrfToken;
 // add react components for the app
 const handleShow = (e) => {
     e.preventDefault();
-    $("#showMessage").animate({opacity: "1"},350);
+    $("#showMessage").fadeIn(4000);
     
     if($("#showName").val() == '' || $("#showRating").val()=='' || $("#showService").val()=='' || $("#showStatus").val()=='') {
         handleError("All fields are required");
@@ -95,6 +95,35 @@ const ShowList = function(props) {
     );
 };
 
+// create React JSX for Filtering - come back to this after the filter function is created
+const FilterForm = (props) => {
+  return (
+    <form id="filterForm" 
+      name="filterForm"
+      action="/filter"
+      method="POST"
+      className="filterForm"
+      >
+          Filter by:
+          <input type="checkbox" name="Netflix" value="Netflix" className="filterBoxes"/>
+          <label htmlFor="Netflix">Netflix</label>
+          <input type="checkbox" name="HBO" value="HBO" className="filterBoxes"/>
+          <label htmlFor="HBO">HBO</label>
+          <input type="checkbox" name="Disney+" value="Disney+" className="filterBoxes"/>
+          <label htmlFor="Disney+">Disney+</label>
+          <input type="checkbox" name="Hulu" value="Hulu" className="filterBoxes"/>
+          <label htmlFor="Hulu">Hulu</label>
+          <input type="checkbox" name="Amazon" value="Amazon Prime" className="filterBoxes"/>
+          <label htmlFor="Amazon">Amazon Prime</label>
+          <input type="checkbox" name="Sling" value="Sling TV" className="filterBoxes"/>
+          <label htmlFor="Sling">Sling TV</label>
+          <input type="checkbox" name="Other" value="Other" className="filterBoxes"/>
+          <label htmlFor="Other">Other</label>
+          <input type="hidden" name="_csrf" value={props.csrf} />
+    </form>
+  );  
+};
+
 // Change the status of the show depending on if it was on the watchlist or complete
 const editShow = (e) => {
     let newStatus;
@@ -129,6 +158,9 @@ const loadShowsFromServer = () => {
 
 // setup to call server to get the shows
 const setup = function(csrf) {
+  ReactDOM.render(
+  <FilterForm csrf={csrf} />, document.querySelector("#filtering")
+  );
   ReactDOM.render(
   <ShowForm csrf={csrf} />, document.querySelector("#makeShow")
   );
