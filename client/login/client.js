@@ -2,7 +2,7 @@
 // send AJAX request to login POST url
 const handleLogin = (e) => {
   e.preventDefault();
-    $("#showMessage").animate({width:'hide'},350);
+    $("#showMessage").animate({width: "hide"},350);
     
     if($("#user").val() == '' || $("#pass").val() == '') {
         handleError("Username or password is empty");

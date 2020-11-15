@@ -41,22 +41,22 @@ const makeShow = (req, res) => {
   if (!req.body.name || !req.body.rating || !req.body.service || !req.body.status) {
     return res.status(400).json({ error: 'Name, rating, service, and status are all required.' });
   }
-    let imgString;
-    if(req.body.service==='Netflix') {
-        imgString = '/assets/img/netflix.png';
-    } else if(req.body.service==='HBO') {
-        imgString = '/assets/img/hbo.png';
-    } else if(req.body.service==='Disney+') {
-        imgString = '/assets/img/disneyplus.png';
-    } else if(req.body.service==='Hulu') {
-        imgString = '/assets/img/hulu.png';
-    } else if(req.body.service==='Amazon Prime') {
-        imgString = '/assets/img/amazon.png';
-    } else if(req.body.service==='Sling TV') {
-        imgString = '/assets/img/sling.png';
-    } else {
-        imgString = '/assets/img/hulu.png';
-    }
+  let imgString;
+  if (req.body.service === 'Netflix') {
+    imgString = '/assets/img/netflix.png';
+  } else if (req.body.service === 'HBO') {
+    imgString = '/assets/img/hbo.png';
+  } else if (req.body.service === 'Disney+') {
+    imgString = '/assets/img/disneyplus.png';
+  } else if (req.body.service === 'Hulu') {
+    imgString = '/assets/img/hulu.png';
+  } else if (req.body.service === 'Amazon Prime') {
+    imgString = '/assets/img/amazon.png';
+  } else if (req.body.service === 'Sling TV') {
+    imgString = '/assets/img/sling.png';
+  } else {
+    imgString = '/assets/img/hulu.png';
+  }
 
   const showData = {
     name: req.body.name,
@@ -64,7 +64,7 @@ const makeShow = (req, res) => {
     service: req.body.service,
     status: req.body.status,
     owner: req.session.account._id,
-      logo: imgString,
+    logo: imgString,
   };
 
   const newShow = new Show.ShowModel(showData);
@@ -82,7 +82,7 @@ const makeShow = (req, res) => {
   return showPromise;
 };
 
-// get JSON responses of user's shows and update dynamically 
+// get JSON responses of user's shows and update dynamically
 const getShows = (request, response) => {
   const req = request;
   const res = response;

@@ -34,7 +34,7 @@ const ShowSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-    
+
   logo: {
     type: String,
     required: true,
@@ -54,11 +54,11 @@ const ShowSchema = new mongoose.Schema({
 });
 
 ShowSchema.statics.toAPI = (doc) => ({
-    name: doc.name,
-    rating: doc.rating,
-    service: doc.service,
-    status: doc.status,
-    logo: doc.logo,
+  name: doc.name,
+  rating: doc.rating,
+  service: doc.service,
+  status: doc.status,
+  logo: doc.logo,
 });
 
 ShowSchema.statics.findByOwner = (ownerId, callback) => {

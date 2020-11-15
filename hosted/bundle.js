@@ -6,7 +6,7 @@ var csrfToken; // add react components for the app
 var handleShow = function handleShow(e) {
   e.preventDefault();
   $("#showMessage").animate({
-    width: 'hide'
+    opacity: "1"
   }, 350);
 
   if ($("#showName").val() == '' || $("#showRating").val() == '' || $("#showService").val() == '' || $("#showStatus").val() == '') {

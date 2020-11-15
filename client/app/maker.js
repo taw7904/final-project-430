@@ -4,7 +4,7 @@ let csrfToken;
 // add react components for the app
 const handleShow = (e) => {
     e.preventDefault();
-    $("#showMessage").animate({width:'hide'},350);
+    $("#showMessage").animate({opacity: "1"},350);
     
     if($("#showName").val() == '' || $("#showRating").val()=='' || $("#showService").val()=='' || $("#showStatus").val()=='') {
         handleError("All fields are required");

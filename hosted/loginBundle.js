@@ -5,7 +5,7 @@
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
   $("#showMessage").animate({
-    width: 'hide'
+    width: "hide"
   }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
