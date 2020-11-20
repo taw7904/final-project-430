@@ -56,7 +56,7 @@ nav {
 
 .showForm {
     border: none;
-    height: 350px;
+    height: 425px;
     width: 300px;
     margin-top:0px;
     padding: 20px;
@@ -255,6 +255,14 @@ nav {
     background-color: #ffafa1;
 }
 
+.Complete {
+    background-color: #dbdbdb;
+}
+
+.Complete:hover {
+    background-color: #bfbfbf;
+}
+
 img.showLogo {
     margin-left: 15px;
     margin-right: 10px;
@@ -308,4 +316,9 @@ h3.showStatus {
 
 .filterBoxes {
     margin-left: 20px;
+}
+
+.directions {
+    font-size: 0.93em;
+    margin-bottom: 30px;
 }

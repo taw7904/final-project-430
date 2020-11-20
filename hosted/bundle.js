@@ -28,6 +28,8 @@ var ShowForm = function ShowForm(props) {
     method: "POST",
     className: "showForm"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "directions"
+  }, /*#__PURE__*/React.createElement("b", null, "enterTAYment"), " is your streaming service assistant! Enter all of the shows you're dying to see, and then change the status to complete when you've happily completed your binge! Use the filters to search and refine your list."), /*#__PURE__*/React.createElement("div", {
     className: "inputFields"
   }, /*#__PURE__*/React.createElement("input", {
     id: "showName",
@@ -119,7 +121,7 @@ var ShowList = function ShowList(props) {
   var showNodes = props.shows.map(function (show) {
     return /*#__PURE__*/React.createElement("div", {
       key: show._id,
-      className: "show"
+      className: "".concat(show.status, " show")
     }, /*#__PURE__*/React.createElement("img", {
       src: show.logo,
       alt: "Streaming Service Logo",

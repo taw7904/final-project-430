@@ -26,8 +26,11 @@ const ShowForm = (props) => {
       method="POST"
       className="showForm"
       >
+          <div className="directions">
+            <b>enterTAYment</b> is your streaming service assistant! Enter all of the shows you're dying to see, and then change the status to complete when you've happily completed your binge! Use the filters to search and refine your list.
+              </div>
           <div className="inputFields">
-      <input id="showName" type="text" name="name" placeholder="Title of Show"/>
+            <input id="showName" type="text" name="name" placeholder="Title of Show"/>
               </div>
           <div className="inputFields">
               <select id="showRating" name="rating" defaultValue="Rating">
@@ -80,7 +83,7 @@ const ShowList = function(props) {
     
     const showNodes = props.shows.map(function(show) {
         return (
-            <div key={show._id} className="show">
+            <div key={show._id} className={`${show.status} show`}>
             <img src={show.logo} alt="Streaming Service Logo" className="showLogo" />
                 <h3 className="showName">{show.name}</h3>
                 <h3 className="showRating">{show.rating}</h3>
