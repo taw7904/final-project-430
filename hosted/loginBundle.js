@@ -39,7 +39,11 @@ var LoginWindow = function LoginWindow(props) {
     action: "/login",
     method: "POST",
     className: "mainForm"
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("img", {
+    id: "frontLogo",
+    src: "/assets/img/favicon.png",
+    alt: "entertayment logo"
+  }), /*#__PURE__*/React.createElement("input", {
     id: "user",
     type: "text",
     name: "username",
@@ -69,7 +73,11 @@ var SignupWindow = function SignupWindow(props) {
     action: "/signup",
     method: "POST",
     className: "mainForm"
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("img", {
+    id: "frontLogo",
+    src: "/assets/img/favicon.png",
+    alt: "entertayment logo"
+  }), /*#__PURE__*/React.createElement("input", {
     id: "user",
     type: "text",
     name: "username",

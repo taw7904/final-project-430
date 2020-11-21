@@ -38,7 +38,7 @@ const LoginWindow = (props) => {
       method="POST"
       className="mainForm"
       >
-          
+      <img id="frontLogo" src="/assets/img/favicon.png" alt="entertayment logo"/>   
       <input id="user" type="text" name="username" placeholder="Username"/>
       <input id="pass" type="password" name="pass" placeholder="Password"/>
       <input type="hidden" name="_csrf" value={props.csrf} />
@@ -57,6 +57,7 @@ const SignupWindow = (props) => {
       method="POST"
       className="mainForm"
       >
+      <img id="frontLogo" src="/assets/img/favicon.png" alt="entertayment logo"/>
       <input id="user" type="text" name="username" placeholder="Username"/>
       <input id="pass" type="password" name="pass" placeholder="Password"/>
       <input id="pass2" type="password" name="pass2" placeholder="Retype Password"/>
