@@ -125,14 +125,30 @@ nav {
     cursor: pointer;
 }
 
-.makeShowSubmit:hover {
+.makeShowSubmit:hover, .editShow:hover  {
     transition: background-color 0.2s ease;
     background-color: #f0806c;
 }
 
-.editShow:hover {
-    background-color: #f0806c;
+#premBtn {
+    transition: background-color 0.4s ease;
+    display: inline;
+    width: 125px;
+    height: 30px;
+    background-color: #fcc6b1;
+    border-radius: 10px;
+    border: none;
+    color: black;
+    text-decoration: none;
+    font-family: 'Hind Guntur', sans-serif;
+    padding-top: 4px;
+    cursor: pointer;
+    margin-right: 40px;
+}
+
+#premBtn:hover {
     transition: background-color 0.2s ease;
+    background-color: #ffafa1;
 }
 
 .mainForm {
@@ -327,4 +343,12 @@ h3.showStatus {
 .directions {
     font-size: 0.93em;
     margin-bottom: 30px;
+}
+
+#filterSpan {
+    display: none;
+}
+
+#premBtn {
+    font-weight: bold;
 }

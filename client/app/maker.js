@@ -4,7 +4,7 @@ let csrfToken;
 // add react components for the app
 const handleShow = (e) => {
     e.preventDefault();
-    $("#showMessage").fadeIn(4000);
+    $("#showMessage").animate({width:'hide'},600);
     
     if($("#showName").val() == '' || $("#showRating").val()=='' || $("#showService").val()=='' || $("#showStatus").val()=='') {
         handleError("All fields are required");
@@ -107,7 +107,9 @@ const FilterForm = (props) => {
       method="POST"
       className="filterForm"
       >
-          Filter by:
+          <input id="premBtn" type="button" name="premMode" value="Turn On Premium" onClick={premChange} />
+          
+          <span id="filterSpan">Filter by:
           <input type="checkbox" name="Netflix" value="Netflix" className="filterBoxes"/>
           <label htmlFor="Netflix">Netflix</label>
           <input type="checkbox" name="HBO" value="HBO" className="filterBoxes"/>
@@ -121,10 +123,24 @@ const FilterForm = (props) => {
           <input type="checkbox" name="Sling" value="Sling TV" className="filterBoxes"/>
           <label htmlFor="Sling">Sling TV</label>
           <input type="checkbox" name="Other" value="Other" className="filterBoxes"/>
-          <label htmlFor="Other">Other</label>
+          <label htmlFor="Other" id="otherLabel">Other</label>
           <input type="hidden" name="_csrf" value={props.csrf} />
+              </span>
     </form>
   );  
+};
+
+const premChange = (e) => {
+    if(e.target.value==='Turn On Premium') {
+        e.target.value = 'Turn Off Premium';
+        e.target.style.fontWeight = 'normal';
+        document.querySelector('#filterSpan').style.display = 'inline';
+    }
+    else {
+        e.target.value = 'Turn On Premium';
+        e.target.style.fontWeight = 'bold';
+        document.querySelector('#filterSpan').style.display = 'none';
+    }
 };
 
 // Change the status of the show depending on if it was on the watchlist or complete

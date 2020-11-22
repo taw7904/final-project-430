@@ -5,7 +5,9 @@ var csrfToken; // add react components for the app
 
 var handleShow = function handleShow(e) {
   e.preventDefault();
-  $("#showMessage").fadeIn(4000);
+  $("#showMessage").animate({
+    width: 'hide'
+  }, 600);
 
   if ($("#showName").val() == '' || $("#showRating").val() == '' || $("#showService").val() == '' || $("#showStatus").val() == '') {
     handleError("All fields are required");
@@ -159,6 +161,14 @@ var FilterForm = function FilterForm(props) {
     action: "/filter",
     method: "POST",
     className: "filterForm"
+  }, /*#__PURE__*/React.createElement("input", {
+    id: "premBtn",
+    type: "button",
+    name: "premMode",
+    value: "Turn On Premium",
+    onClick: premChange
+  }), /*#__PURE__*/React.createElement("span", {
+    id: "filterSpan"
   }, "Filter by:", /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "Netflix",
@@ -207,12 +217,25 @@ var FilterForm = function FilterForm(props) {
     value: "Other",
     className: "filterBoxes"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "Other"
+    htmlFor: "Other",
+    id: "otherLabel"
   }, "Other"), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
-  }));
+  })));
+};
+
+var premChange = function premChange(e) {
+  if (e.target.value === 'Turn On Premium') {
+    e.target.value = 'Turn Off Premium';
+    e.target.style.fontWeight = 'normal';
+    document.querySelector('#filterSpan').style.display = 'inline';
+  } else {
+    e.target.value = 'Turn On Premium';
+    e.target.style.fontWeight = 'bold';
+    document.querySelector('#filterSpan').style.display = 'none';
+  }
 }; // Change the status of the show depending on if it was on the watchlist or complete
 
 

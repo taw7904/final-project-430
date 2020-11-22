@@ -4,7 +4,9 @@
 // send AJAX request to login POST url
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
-  $('#showMessage').fadeIn(4000);
+  $("#showMessage").animate({
+    width: 'hide'
+  }, 600);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
     handleError("Username or password is empty");
@@ -19,7 +21,9 @@ var handleLogin = function handleLogin(e) {
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
-  $("#showMessage").fadeIn(4000);
+  $("#showMessage").animate({
+    width: 'hide'
+  }, 600);
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
     handleError("Passwords do not match");
