@@ -1,5 +1,6 @@
 // global csrfToken
 let csrfToken;
+let filterArr = [];
 
 // add react components for the app
 const handleShow = (e) => {
@@ -10,9 +11,7 @@ const handleShow = (e) => {
         handleError("All fields are required");
         return false;
     }
-    sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), function() {
-        loadShowsFromServer();
-    });
+    sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), loadShowsFromServer);
     return false;
 };
 
@@ -80,7 +79,6 @@ const ShowList = function(props) {
           </div>
       );
   } 
-    
     const showNodes = props.shows.map(function(show) {
         return (
             <div key={show._id} className={`${show.status} show`}>
@@ -103,31 +101,41 @@ const FilterForm = (props) => {
   return (
     <form id="filterForm" 
       name="filterForm"
-      action="/filter"
       method="POST"
       className="filterForm"
       >
           <input id="premBtn" type="button" name="premMode" value="Turn On Premium" onClick={premChange} />
           
           <span id="filterSpan">Filter by:
-          <input type="checkbox" name="Netflix" value="Netflix" className="filterBoxes"/>
+          <input type="checkbox" name="Netflix" value="Netflix" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Netflix">Netflix</label>
-          <input type="checkbox" name="HBO" value="HBO" className="filterBoxes"/>
+          <input type="checkbox" name="HBO" value="HBO" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="HBO">HBO</label>
-          <input type="checkbox" name="Disney+" value="Disney+" className="filterBoxes"/>
+          <input type="checkbox" name="Disney+" value="Disney+" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Disney+">Disney+</label>
-          <input type="checkbox" name="Hulu" value="Hulu" className="filterBoxes"/>
+          <input type="checkbox" name="Hulu" value="Hulu" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Hulu">Hulu</label>
-          <input type="checkbox" name="Amazon" value="Amazon Prime" className="filterBoxes"/>
+          <input type="checkbox" name="Amazon" value="Amazon Prime" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Amazon">Amazon Prime</label>
-          <input type="checkbox" name="Sling" value="Sling TV" className="filterBoxes"/>
+          <input type="checkbox" name="Sling" value="Sling TV" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Sling">Sling TV</label>
-          <input type="checkbox" name="Other" value="Other" className="filterBoxes"/>
+          <input type="checkbox" name="Other" value="Other" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Other" id="otherLabel">Other</label>
           <input type="hidden" name="_csrf" value={props.csrf} />
-              </span>
+          <input id="clearBtn" type="button" name="clearBtn" value="Clear Filters"/>
+          </span>
     </form>
   );  
+};
+
+const checkFilters = (e) => {
+    if(e.target.checked) {
+        filterArr.push(e.target.value);
+    }
+    else {
+        filterArr = filterArr.filter(el => el !== e.target.value);
+    }
+    console.log(e.target.value);
 };
 
 const premChange = (e) => {
@@ -160,7 +168,7 @@ const editShow = (e) => {
     name: e.target.dataset.name,
     rating: e.target.dataset.rating,
     service: e.target.dataset.service,
-        logo: e.target.dataset.logo,
+    logo: e.target.dataset.logo,
     };
     
     sendAjax('POST', '/update', newData, loadShowsFromServer);

@@ -130,7 +130,7 @@ nav {
     background-color: #f0806c;
 }
 
-#premBtn {
+#premBtn, #clearBtn {
     transition: background-color 0.4s ease;
     display: inline;
     width: 125px;
@@ -143,10 +143,15 @@ nav {
     font-family: 'Hind Guntur', sans-serif;
     padding-top: 4px;
     cursor: pointer;
-    margin-right: 40px;
+    margin-right: 25px;
 }
 
-#premBtn:hover {
+#clearBtn {
+    width: 80px;
+    margin-left: 25px;
+}
+
+#premBtn:hover, #clearBtn:hover {
     transition: background-color 0.2s ease;
     background-color: #ffafa1;
 }

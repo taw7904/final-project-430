@@ -1,7 +1,8 @@
 "use strict";
 
 // global csrfToken
-var csrfToken; // add react components for the app
+var csrfToken;
+var filterArr = []; // add react components for the app
 
 var handleShow = function handleShow(e) {
   e.preventDefault();
@@ -14,9 +15,7 @@ var handleShow = function handleShow(e) {
     return false;
   }
 
-  sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), function () {
-    loadShowsFromServer();
-  });
+  sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), loadShowsFromServer);
   return false;
 }; // create React JSX for Add Input Show form
 
@@ -158,7 +157,6 @@ var FilterForm = function FilterForm(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "filterForm",
     name: "filterForm",
-    action: "/filter",
     method: "POST",
     className: "filterForm"
   }, /*#__PURE__*/React.createElement("input", {
@@ -173,49 +171,56 @@ var FilterForm = function FilterForm(props) {
     type: "checkbox",
     name: "Netflix",
     value: "Netflix",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Netflix"
   }, "Netflix"), /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "HBO",
     value: "HBO",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "HBO"
   }, "HBO"), /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "Disney+",
     value: "Disney+",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Disney+"
   }, "Disney+"), /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "Hulu",
     value: "Hulu",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Hulu"
   }, "Hulu"), /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "Amazon",
     value: "Amazon Prime",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Amazon"
   }, "Amazon Prime"), /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "Sling",
     value: "Sling TV",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Sling"
   }, "Sling TV"), /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     name: "Other",
     value: "Other",
-    className: "filterBoxes"
+    className: "filterBoxes",
+    onChange: checkFilters
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "Other",
     id: "otherLabel"
@@ -223,7 +228,24 @@ var FilterForm = function FilterForm(props) {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    id: "clearBtn",
+    type: "button",
+    name: "clearBtn",
+    value: "Clear Filters"
   })));
+};
+
+var checkFilters = function checkFilters(e) {
+  if (e.target.checked) {
+    filterArr.push(e.target.value);
+  } else {
+    filterArr = filterArr.filter(function (el) {
+      return el !== e.target.value;
+    });
+  }
+
+  console.log(e.target.value);
 };
 
 var premChange = function premChange(e) {
