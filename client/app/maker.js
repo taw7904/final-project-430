@@ -80,6 +80,8 @@ const ShowList = function(props) {
       );
   } 
     const showNodes = props.shows.map(function(show) {
+        //only return if the filters are empty, or if the show is in the filter
+        if(filterArr.length == 0 || filterArr.includes(show.service)) {
         return (
             <div key={show._id} className={`${show.status} show`}>
             <img src={show.logo} alt="Streaming Service Logo" className="showLogo" />
@@ -89,6 +91,7 @@ const ShowList = function(props) {
                 <input className="editShow" type="submit" value="Change Status" onClick={editShow} data-showid={show._id} data-csrf={props.csrf} data-name={show.name} data-rating={show.rating} data-service={show.service} data-status={show.status} data-logo={show.logo}/>
             </div>
         );
+    }
     });
     
     return (
@@ -122,12 +125,13 @@ const FilterForm = (props) => {
           <input type="checkbox" name="Other" value="Other" className="filterBoxes" onChange={checkFilters}/>
           <label htmlFor="Other" id="otherLabel">Other</label>
           <input type="hidden" name="_csrf" value={props.csrf} />
-          <input id="clearBtn" type="button" name="clearBtn" value="Clear Filters"/>
+          <input id="clearBtn" type="button" name="clearBtn" value="Clear Filters" onClick={clearFilters}/>
           </span>
     </form>
   );  
 };
 
+// get the filters from the checkboxes and add them to array
 const checkFilters = (e) => {
     if(e.target.checked) {
         filterArr.push(e.target.value);
@@ -136,8 +140,20 @@ const checkFilters = (e) => {
         filterArr = filterArr.filter(el => el !== e.target.value);
     }
     console.log(e.target.value);
+    loadShowsFromServer();
 };
 
+// clear all filters on button click
+const clearFilters = (e) => {
+    filterArr = [];
+    const boxes = document.querySelectorAll('.filterBoxes');
+    for(let i=0; i<boxes.length; i++) {
+        boxes[i].checked = false;
+    }
+    loadShowsFromServer();
+};
+
+// toggle premium mode on and off
 const premChange = (e) => {
     if(e.target.value==='Turn On Premium') {
         e.target.value = 'Turn Off Premium';

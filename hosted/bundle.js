@@ -120,32 +120,35 @@ var ShowList = function ShowList(props) {
   }
 
   var showNodes = props.shows.map(function (show) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: show._id,
-      className: "".concat(show.status, " show")
-    }, /*#__PURE__*/React.createElement("img", {
-      src: show.logo,
-      alt: "Streaming Service Logo",
-      className: "showLogo"
-    }), /*#__PURE__*/React.createElement("h3", {
-      className: "showName"
-    }, show.name), /*#__PURE__*/React.createElement("h3", {
-      className: "showRating"
-    }, show.rating), /*#__PURE__*/React.createElement("h3", {
-      className: "showStatus"
-    }, show.status), /*#__PURE__*/React.createElement("input", {
-      className: "editShow",
-      type: "submit",
-      value: "Change Status",
-      onClick: editShow,
-      "data-showid": show._id,
-      "data-csrf": props.csrf,
-      "data-name": show.name,
-      "data-rating": show.rating,
-      "data-service": show.service,
-      "data-status": show.status,
-      "data-logo": show.logo
-    }));
+    //only return if the filters are empty, or if the show is in the filter
+    if (filterArr.length == 0 || filterArr.includes(show.service)) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: show._id,
+        className: "".concat(show.status, " show")
+      }, /*#__PURE__*/React.createElement("img", {
+        src: show.logo,
+        alt: "Streaming Service Logo",
+        className: "showLogo"
+      }), /*#__PURE__*/React.createElement("h3", {
+        className: "showName"
+      }, show.name), /*#__PURE__*/React.createElement("h3", {
+        className: "showRating"
+      }, show.rating), /*#__PURE__*/React.createElement("h3", {
+        className: "showStatus"
+      }, show.status), /*#__PURE__*/React.createElement("input", {
+        className: "editShow",
+        type: "submit",
+        value: "Change Status",
+        onClick: editShow,
+        "data-showid": show._id,
+        "data-csrf": props.csrf,
+        "data-name": show.name,
+        "data-rating": show.rating,
+        "data-service": show.service,
+        "data-status": show.status,
+        "data-logo": show.logo
+      }));
+    }
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "showList"
@@ -232,9 +235,11 @@ var FilterForm = function FilterForm(props) {
     id: "clearBtn",
     type: "button",
     name: "clearBtn",
-    value: "Clear Filters"
+    value: "Clear Filters",
+    onClick: clearFilters
   })));
-};
+}; // get the filters from the checkboxes and add them to array
+
 
 var checkFilters = function checkFilters(e) {
   if (e.target.checked) {
@@ -246,7 +251,21 @@ var checkFilters = function checkFilters(e) {
   }
 
   console.log(e.target.value);
-};
+  loadShowsFromServer();
+}; // clear all filters on button click
+
+
+var clearFilters = function clearFilters(e) {
+  filterArr = [];
+  var boxes = document.querySelectorAll('.filterBoxes');
+
+  for (var i = 0; i < boxes.length; i++) {
+    boxes[i].checked = false;
+  }
+
+  loadShowsFromServer();
+}; // toggle premium mode on and off
+
 
 var premChange = function premChange(e) {
   if (e.target.value === 'Turn On Premium') {

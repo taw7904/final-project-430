@@ -341,10 +341,6 @@ h3.showStatus {
     margin-left: 450px;
 }
 
-.filterBoxes {
-    margin-left: 20px;
-}
-
 .directions {
     font-size: 0.93em;
     margin-bottom: 30px;
@@ -356,4 +352,33 @@ h3.showStatus {
 
 #premBtn {
     font-weight: bold;
+}
+
+.filterBoxes {
+	margin-left: 20px;
+    -webkit-appearance: none;
+	border: 1px solid #cacece;
+	padding-left: 7px;
+    padding-right: 7px;
+	border-radius: 3px;
+	display: inline;
+	position: relative;
+}
+
+.filterBoxes:checked {
+	background-color: #f0806c;
+	border: 1px solid #fcc6b1;
+}
+
+.filterBoxes:checked:after {
+	content: '\2714';
+	font-size: 12px;
+	position: absolute;
+	top: -1px;
+	left: 2px;
+	color: white;
+}
+
+.filterBoxes:focus {
+    outline: none;
 }
