@@ -98,16 +98,17 @@ const changePass = (request, response) => {
   // generate new encrypted password hash and salt
   // store in database and send JSON response back to user for success or failure
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
-      Account.AccountModel.updateOne({_id: req.session.account._id}, {
-          username: req.session.account.username,
-          salt,
-          password: hash,
-      }, (err) => {
-          if (err) {
-            return res.status(400).json({ error: 'An error occured' });
-          }
-      });
-      res.json({ redirect: '/maker' });
+    Account.AccountModel.updateOne({ _id: req.session.account._id }, {
+      username: req.session.account.username,
+      salt,
+      password: hash,
+    }, (err) => {
+      if (err) {
+        return res.status(400).json({ error: 'An error occured' });
+      }
+      return hash;
+    });
+    res.json({ redirect: '/maker' });
   });
 };
 

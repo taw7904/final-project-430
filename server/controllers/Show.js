@@ -13,13 +13,13 @@ const makerPage = (req, res) => {
 };
 
 const deleteAll = (req, res) => {
-    console.log("delete all...");
-  /*Show.ShowModel.findByIdAndDelete(req.session.account._id, (err) => {
+  console.log('delete all...');
+  Show.ShowModel.findByIdAndDelete(req.session.account._id, (err) => {
     if (err) {
       return res.status(400).json({ error: 'An error occurred' });
     }
-    res.json({ redirect: '/maker' });
-  });*/
+    return res.json({ redirect: '/maker' });
+  });
 };
 
 const updateShow = (req, res) => {
