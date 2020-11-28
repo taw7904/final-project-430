@@ -6,17 +6,25 @@ const { Show } = models;
 const makerPage = (req, res) => {
   Show.ShowModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
-      // console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
     return res.render('app', { csrfToken: req.csrfToken(), shows: docs });
   });
 };
 
+const deleteAll = (req, res) => {
+    console.log("delete all...");
+  /*Show.ShowModel.findByIdAndDelete(req.session.account._id, (err) => {
+    if (err) {
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    res.json({ redirect: '/maker' });
+  });*/
+};
+
 const updateShow = (req, res) => {
   Show.ShowModel.findById(req.body.id, (err, doc) => {
     if (err) {
-      // console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
     if (!doc) {
@@ -24,11 +32,9 @@ const updateShow = (req, res) => {
     }
     const editShow = doc;
     editShow.status = req.body.status;
-    // console.log(editShow);
     const showPromise = editShow.save();
 
     showPromise.then(() => res.json({ redirect: '/maker' }));
-
     showPromise.catch((err2) => {
       console.log(err2);
       return res.status(400).json({ error: 'An error occured' });
@@ -73,7 +79,6 @@ const makeShow = (req, res) => {
   showPromise.then(() => res.json({ redirect: '/maker' }));
 
   showPromise.catch((err) => {
-    // console.log(err);
     if (err.code === 11000) {
       return res.status(400).json({ error: 'Show already exists' });
     }
@@ -100,3 +105,4 @@ module.exports.makerPage = makerPage;
 module.exports.getShows = getShows;
 module.exports.make = makeShow;
 module.exports.update = updateShow;
+module.exports.deleteAll = deleteAll;

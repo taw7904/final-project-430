@@ -78,6 +78,39 @@ const signup = (request, response) => {
   });
 };
 
+const changePass = (request, response) => {
+  const req = request;
+  const res = response;
+
+  // cast strings to cover up some security flaws to gaurentee valid types
+  req.body.pass = `${req.body.pass}`;
+  req.body.pass2 = `${req.body.pass2}`;
+
+  if (!req.body.pass || !req.body.pass2) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  // check if passwords match
+  if (req.body.pass !== req.body.pass2) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  // generate new encrypted password hash and salt
+  // store in database and send JSON response back to user for success or failure
+  return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
+      Account.AccountModel.updateOne({_id: req.session.account._id}, {
+          username: req.session.account.username,
+          salt,
+          password: hash,
+      }, (err) => {
+          if (err) {
+            return res.status(400).json({ error: 'An error occured' });
+          }
+      });
+      res.json({ redirect: '/maker' });
+  });
+};
+
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -92,3 +125,4 @@ module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
+module.exports.changePass = changePass;

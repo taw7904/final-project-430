@@ -2,7 +2,11 @@
 
 // global csrfToken
 var csrfToken;
-var filterArr = []; // add react components for the app
+var filterArr = [];
+var showLength;
+var s1 = 1;
+var s2 = 6;
+var tempS; // add react components for the app
 
 var handleShow = function handleShow(e) {
   e.preventDefault();
@@ -16,6 +20,22 @@ var handleShow = function handleShow(e) {
   }
 
   sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), loadShowsFromServer);
+  return false;
+}; // handle clicks to the change pass button
+
+
+var handleChangePass = function handleChangePass(e) {
+  e.preventDefault();
+  $("#showMessage").animate({
+    width: 'hide'
+  }, 600);
+
+  if ($("#pass").val() == '' || $("#pass2").val() == '') {
+    handleError("Passwords do not match");
+    return false;
+  }
+
+  sendAjax('POST', $("#changePassForm").attr("action"), $("#changePassForm").serialize(), redirect);
   return false;
 }; // create React JSX for Add Input Show form
 
@@ -119,40 +139,62 @@ var ShowList = function ShowList(props) {
     }, "No shows yet"));
   }
 
+  showLength = props.shows.length;
+  console.log(showLength);
+  var s = 0;
   var showNodes = props.shows.map(function (show) {
     //only return if the filters are empty, or if the show is in the filter
     if (filterArr.length == 0 || filterArr.includes(show.service)) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: show._id,
-        className: "".concat(show.status, " show")
-      }, /*#__PURE__*/React.createElement("img", {
-        src: show.logo,
-        alt: "Streaming Service Logo",
-        className: "showLogo"
-      }), /*#__PURE__*/React.createElement("h3", {
-        className: "showName"
-      }, show.name), /*#__PURE__*/React.createElement("h3", {
-        className: "showRating"
-      }, show.rating), /*#__PURE__*/React.createElement("h3", {
-        className: "showStatus"
-      }, show.status), /*#__PURE__*/React.createElement("input", {
-        className: "editShow",
-        type: "submit",
-        value: "Change Status",
-        onClick: editShow,
-        "data-showid": show._id,
-        "data-csrf": props.csrf,
-        "data-name": show.name,
-        "data-rating": show.rating,
-        "data-service": show.service,
-        "data-status": show.status,
-        "data-logo": show.logo
-      }));
+      s++;
+      tempS = s;
+
+      if (s >= s1 && s <= s2) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: show._id,
+          className: "".concat(show.status, " show")
+        }, /*#__PURE__*/React.createElement("img", {
+          src: show.logo,
+          alt: "Streaming Service Logo",
+          className: "showLogo"
+        }), /*#__PURE__*/React.createElement("h3", {
+          className: "showName"
+        }, show.name), /*#__PURE__*/React.createElement("h3", {
+          className: "showRating"
+        }, show.rating), /*#__PURE__*/React.createElement("h3", {
+          className: "showStatus"
+        }, show.status), /*#__PURE__*/React.createElement("input", {
+          className: "editShow",
+          type: "submit",
+          value: "Change Status",
+          onClick: editShow,
+          "data-showid": show._id,
+          "data-csrf": props.csrf,
+          "data-name": show.name,
+          "data-rating": show.rating,
+          "data-service": show.service,
+          "data-status": show.status,
+          "data-logo": show.logo
+        }));
+      }
     }
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "showList"
-  }, showNodes);
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "next",
+    onClick: scrollShow
+  }, "Next"), /*#__PURE__*/React.createElement("span", {
+    className: "prev",
+    onClick: scrollShow
+  }, "Previous"), showNodes, /*#__PURE__*/React.createElement("span", {
+    className: "next",
+    id: "belowNext",
+    onClick: scrollShow
+  }, "Next"), /*#__PURE__*/React.createElement("span", {
+    className: "prev",
+    id: "belowPrev",
+    onClick: scrollShow
+  }, "Previous"));
 }; // create React JSX for Filtering - come back to this after the filter function is created
 
 
@@ -238,6 +280,52 @@ var FilterForm = function FilterForm(props) {
     value: "Clear Filters",
     onClick: clearFilters
   })));
+};
+
+var DeleteForm = function DeleteForm(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "deleteForm",
+    name: "deleteForm",
+    action: "/delete",
+    method: "POST",
+    className: "deleteForm"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    id: "deleteBtn",
+    type: "button",
+    name: "deleteBtn",
+    value: "Delete All Shows",
+    onClick: deleteAll
+  }));
+};
+
+var deleteAll = function deleteAll(e) {
+  console.log("delete all");
+  sendAjax('POST', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), loadShowsFromServer);
+};
+
+var scrollShow = function scrollShow(e) {
+  console.log("test" + tempS);
+
+  if (e.target.className === 'next' && s2 < tempS) {
+    s1 += 6;
+    s2 += 6;
+  }
+
+  if (e.target.className === 'prev') {
+    if (s2 <= 6) {
+      s1 = 1;
+      s2 = 6;
+    } else {
+      s1 -= 6;
+      s2 -= 6;
+    }
+  }
+
+  loadShowsFromServer();
 }; // get the filters from the checkboxes and add them to array
 
 
@@ -308,6 +396,45 @@ var loadShowsFromServer = function loadShowsFromServer() {
       shows: data.shows
     }), document.querySelector("#shows"));
   });
+};
+
+var ChangePassWindow = function ChangePassWindow(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "changePassForm",
+    name: "changePassForm",
+    onSubmit: handleChangePass,
+    action: "/changePass",
+    method: "POST",
+    className: "mainForm"
+  }, /*#__PURE__*/React.createElement("img", {
+    id: "frontLogo",
+    src: "/assets/img/favicon.png",
+    alt: "entertayment logo"
+  }), /*#__PURE__*/React.createElement("input", {
+    id: "pass",
+    type: "password",
+    name: "pass",
+    placeholder: "New Password"
+  }), /*#__PURE__*/React.createElement("input", {
+    id: "pass2",
+    type: "password",
+    name: "pass2",
+    placeholder: "Retype Password"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "formSubmit",
+    type: "submit",
+    value: "CHANGE"
+  }));
+};
+
+var createChangePassWindow = function createChangePassWindow(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(ChangePassWindow, {
+    csrf: csrf
+  }), document.querySelector("#passChange"));
 }; // setup to call server to get the shows
 
 
@@ -318,9 +445,19 @@ var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(ShowForm, {
     csrf: csrf
   }), document.querySelector("#makeShow"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
+    csrf: csrf
+  }), document.querySelector("#deleteAll"));
   ReactDOM.render( /*#__PURE__*/React.createElement(ShowList, {
     shows: []
   }), document.querySelector("#shows"));
+  var changePassButton = document.querySelector("#changePassButton");
+  changePassButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    createChangePassWindow(csrf);
+    document.querySelector("#mainShowDiv").style.opacity = 0.3;
+    return false;
+  });
   loadShowsFromServer();
 }; // get token when you need it and load react components
 

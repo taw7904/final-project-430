@@ -48,7 +48,7 @@ nav {
     font-weight: bold;
 }
 
-#loginButton {
+#loginButton, #changePassButton {
     margin-right: 15px;
 }
 
@@ -130,7 +130,7 @@ nav {
     background-color: #f0806c;
 }
 
-#premBtn, #clearBtn {
+#premBtn, #clearBtn, #deleteBtn {
     transition: background-color 0.4s ease;
     display: inline;
     width: 125px;
@@ -151,7 +151,7 @@ nav {
     margin-left: 25px;
 }
 
-#premBtn:hover, #clearBtn:hover {
+#premBtn:hover, #clearBtn:hover, #deleteBtn:hover {
     transition: background-color 0.2s ease;
     background-color: #ffafa1;
 }
@@ -261,6 +261,7 @@ nav {
     margin: 0 auto;
     margin-top: 0px;
     margin-left: 425px;
+    min-height: 775px;
 }
 
 .show {
@@ -381,4 +382,32 @@ h3.showStatus {
 
 .filterBoxes:focus {
     outline: none;
+}
+
+#passChange {
+    z-index: 100;
+    position: absolute;
+    top: 10px;
+    left: 43%;
+}
+
+.prev, .next {
+    float: right;
+    margin-right: 25px;
+    color: #f0806c;
+    font-weight: normal;
+}
+
+.prev:hover, .next:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#belowNext, #belowPrevious {
+    padding-bottom: 20px;
+}
+
+#deleteBtn {
+    margin-top: -220px;
+    margin-left: 157px;
 }

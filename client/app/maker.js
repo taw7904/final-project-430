@@ -1,6 +1,10 @@
 // global csrfToken
 let csrfToken;
 let filterArr = [];
+let showLength;
+let s1 = 1;
+let s2 = 6;
+let tempS;
 
 // add react components for the app
 const handleShow = (e) => {
@@ -12,6 +16,20 @@ const handleShow = (e) => {
         return false;
     }
     sendAjax('POST', $("#showForm").attr("action"), $("#showForm").serialize(), loadShowsFromServer);
+    return false;
+};
+
+// handle clicks to the change pass button
+const handleChangePass = (e) => {
+  e.preventDefault();
+    $("#showMessage").animate({width:'hide'},600);
+    
+    if($("#pass").val() == '' || $("#pass2").val() == '') {
+        handleError("Passwords do not match");
+        return false;
+    }
+    
+    sendAjax('POST', $("#changePassForm").attr("action"), $("#changePassForm").serialize(), redirect);
     return false;
 };
 
@@ -78,10 +96,17 @@ const ShowList = function(props) {
           <h3 className="emptyShow">No shows yet</h3>
           </div>
       );
-  } 
+  }
+    showLength = props.shows.length;
+    console.log(showLength);
+    let s = 0;
+    
     const showNodes = props.shows.map(function(show) {
         //only return if the filters are empty, or if the show is in the filter
         if(filterArr.length == 0 || filterArr.includes(show.service)) {
+        s++;
+        tempS = s;
+        if(s >= s1 && s <= s2) {
         return (
             <div key={show._id} className={`${show.status} show`}>
             <img src={show.logo} alt="Streaming Service Logo" className="showLogo" />
@@ -92,10 +117,17 @@ const ShowList = function(props) {
             </div>
         );
     }
+        }
     });
     
     return (
-    <div className="showList">{showNodes}</div>
+    <div className="showList">
+        <span className="next" onClick={scrollShow}>Next</span>
+        <span className="prev" onClick={scrollShow}>Previous</span>
+            {showNodes}
+        <span className="next" id="belowNext" onClick={scrollShow}>Next</span>
+        <span className="prev" id="belowPrev" onClick={scrollShow}>Previous</span>
+        </div>
     );
 };
 
@@ -129,6 +161,44 @@ const FilterForm = (props) => {
           </span>
     </form>
   );  
+};
+
+const DeleteForm = (props) => {
+  return (
+    <form id="deleteForm" 
+      name="deleteForm"
+      action="/delete"
+      method="POST"
+      className="deleteForm"
+      >
+          <input type="hidden" name="_csrf" value={props.csrf} />
+          <input id="deleteBtn" type="button" name="deleteBtn" value="Delete All Shows" onClick={deleteAll} />
+    </form>
+  );  
+};
+
+const deleteAll = (e) => {
+    console.log("delete all");
+    sendAjax('POST', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), loadShowsFromServer);
+};
+
+const scrollShow = (e) => {
+    console.log("test" + tempS);
+    if(e.target.className==='next' && s2 < tempS) {
+        s1 += 6;
+        s2 += 6;
+    }
+    if(e.target.className==='prev')  {
+        if(s2<=6) {
+            s1 = 1;
+            s2 = 6;
+        }
+        else {
+        s1 -= 6;
+        s2 -= 6;
+        }
+    }
+    loadShowsFromServer();
 };
 
 // get the filters from the checkboxes and add them to array
@@ -199,6 +269,31 @@ const loadShowsFromServer = () => {
     });
 };
 
+const ChangePassWindow = (props) => {
+  return (
+    <form id="changePassForm" 
+      name="changePassForm"
+      onSubmit={handleChangePass}
+      action="/changePass"
+      method="POST"
+      className="mainForm"
+      >
+      <img id="frontLogo" src="/assets/img/favicon.png" alt="entertayment logo"/>
+      <input id="pass" type="password" name="pass" placeholder="New Password"/>
+      <input id="pass2" type="password" name="pass2" placeholder="Retype Password"/>
+      <input type="hidden" name="_csrf" value={props.csrf} />
+      <input className="formSubmit" type="submit" value="CHANGE" />
+    </form>
+  );  
+};
+
+const createChangePassWindow = (csrf) => {
+    ReactDOM.render(
+        <ChangePassWindow csrf={csrf} />,
+        document.querySelector("#passChange")
+    );
+};
+
 // setup to call server to get the shows
 const setup = function(csrf) {
   ReactDOM.render(
@@ -208,8 +303,19 @@ const setup = function(csrf) {
   <ShowForm csrf={csrf} />, document.querySelector("#makeShow")
   );
     ReactDOM.render(
+  <DeleteForm csrf={csrf} />, document.querySelector("#deleteAll")
+  );
+    ReactDOM.render(
     <ShowList shows={[]} />, document.querySelector("#shows")
     );
+    
+    const changePassButton = document.querySelector("#changePassButton");
+    changePassButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        createChangePassWindow(csrf);
+        document.querySelector("#mainShowDiv").style.opacity = 0.3;
+        return false;
+    });
     loadShowsFromServer();
 };
 
