@@ -1,12 +1,17 @@
 "use strict";
 
 // global csrfToken
-var csrfToken;
-var filterArr = [];
-var showLength;
-var s1 = 1;
-var s2 = 6;
-var tempS; // add react components for the app
+var csrfToken; // all the different streaming service filters
+
+var filterArr = []; // starting index of filtered array
+
+var s1 = 1; // ending index of filtered array
+
+var s2 = 6; // temporary variables for keeping track of pages once filtered
+
+var tempS;
+var pageNums = 1;
+var currPage = 1; // add react components for the app
 
 var handleShow = function handleShow(e) {
   e.preventDefault();
@@ -137,16 +142,22 @@ var ShowList = function ShowList(props) {
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyShow"
     }, "No shows yet"));
-  }
+  } //count how many shows are in the array
 
-  showLength = props.shows.length;
-  console.log(showLength);
+
   var s = 0;
   var showNodes = props.shows.map(function (show) {
     //only return if the filters are empty, or if the show is in the filter
     if (filterArr.length == 0 || filterArr.includes(show.service)) {
       s++;
-      tempS = s;
+      tempS = s; // calculate the page number & current page
+
+      pageNums = Math.ceil(tempS / 6);
+
+      if (pageNums == 0) {
+        pageNums = 1;
+      } //display the shows if theyre in the page range
+
 
       if (s >= s1 && s <= s2) {
         return /*#__PURE__*/React.createElement("div", {
@@ -186,7 +197,9 @@ var ShowList = function ShowList(props) {
   }, "Next"), /*#__PURE__*/React.createElement("span", {
     className: "prev",
     onClick: scrollShow
-  }, "Previous"), showNodes, /*#__PURE__*/React.createElement("span", {
+  }, "Previous"), /*#__PURE__*/React.createElement("span", {
+    className: "page"
+  }, "Page ", currPage, " of ", pageNums), showNodes, /*#__PURE__*/React.createElement("span", {
     className: "next",
     id: "belowNext",
     onClick: scrollShow
@@ -195,7 +208,7 @@ var ShowList = function ShowList(props) {
     id: "belowPrev",
     onClick: scrollShow
   }, "Previous"));
-}; // create React JSX for Filtering - come back to this after the filter function is created
+}; // create React JSX for Filtering 
 
 
 var FilterForm = function FilterForm(props) {
@@ -280,7 +293,8 @@ var FilterForm = function FilterForm(props) {
     value: "Clear Filters",
     onClick: clearFilters
   })));
-};
+}; // create React JSX for deleting all form/button
+
 
 var DeleteForm = function DeleteForm(props) {
   return /*#__PURE__*/React.createElement("form", {
@@ -300,19 +314,36 @@ var DeleteForm = function DeleteForm(props) {
     value: "Delete All Shows",
     onClick: deleteAll
   }));
-};
+}; // create content area for the ads to appear and cycle through
+
+
+var AdBox = function AdBox(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    id: "slideshow"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+    src: "/assets/img/ads/wellness.png",
+    alt: "Wellness Tracker"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+    src: "/assets/img/ads/igme430.png",
+    alt: "IGME340, Everyone's Favorite Online Class"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+    src: "/assets/img/ads/holiday.png",
+    alt: "Holiday Deals"
+  })));
+}; // called when delete all shows button is clicked
+// will delete all the shows from this users database
+
 
 var deleteAll = function deleteAll(e) {
-  console.log("delete all");
   sendAjax('POST', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), loadShowsFromServer);
-};
+}; // controlls going to the next page of shows when next or previous is hit
+
 
 var scrollShow = function scrollShow(e) {
-  console.log("test" + tempS);
-
   if (e.target.className === 'next' && s2 < tempS) {
     s1 += 6;
     s2 += 6;
+    currPage++;
   }
 
   if (e.target.className === 'prev') {
@@ -322,6 +353,7 @@ var scrollShow = function scrollShow(e) {
     } else {
       s1 -= 6;
       s2 -= 6;
+      currPage--;
     }
   }
 
@@ -330,6 +362,10 @@ var scrollShow = function scrollShow(e) {
 
 
 var checkFilters = function checkFilters(e) {
+  currPage = 1;
+  s1 = 1;
+  s2 = 6;
+
   if (e.target.checked) {
     filterArr.push(e.target.value);
   } else {
@@ -338,12 +374,14 @@ var checkFilters = function checkFilters(e) {
     });
   }
 
-  console.log(e.target.value);
   loadShowsFromServer();
 }; // clear all filters on button click
 
 
 var clearFilters = function clearFilters(e) {
+  currPage = 1;
+  s1 = 1;
+  s2 = 6;
   filterArr = [];
   var boxes = document.querySelectorAll('.filterBoxes');
 
@@ -396,7 +434,8 @@ var loadShowsFromServer = function loadShowsFromServer() {
       shows: data.shows
     }), document.querySelector("#shows"));
   });
-};
+}; // create React JSX for the password change pop up
+
 
 var ChangePassWindow = function ChangePassWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
@@ -429,7 +468,8 @@ var ChangePassWindow = function ChangePassWindow(props) {
     type: "submit",
     value: "CHANGE"
   }));
-};
+}; // only render this on click of the change password button
+
 
 var createChangePassWindow = function createChangePassWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(ChangePassWindow, {
@@ -448,17 +488,36 @@ var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
     csrf: csrf
   }), document.querySelector("#deleteAll"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(AdBox, {
+    csrf: csrf
+  }), document.querySelector("#adBox"));
   ReactDOM.render( /*#__PURE__*/React.createElement(ShowList, {
     shows: []
-  }), document.querySelector("#shows"));
+  }), document.querySelector("#shows")); // set up the slideshow ad functionality
+
+  setUpSlides(); // hook up rendering the change password button to the click
+
   var changePassButton = document.querySelector("#changePassButton");
   changePassButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createChangePassWindow(csrf);
+    createChangePassWindow(csrf); // make everything underneath opaque
+
     document.querySelector("#mainShowDiv").style.opacity = 0.3;
     return false;
   });
   loadShowsFromServer();
+}; // set up the slideshow ad functionality
+// to rotate through each ad every 7 seconds
+
+
+var setUpSlides = function setUpSlides() {
+  /* rotating through ad slideshow code help from here: 
+  https://css-tricks.com/snippets/jquery/simple-auto-playing-slideshow/ 
+  */
+  $("#slideshow > div:gt(0)").hide();
+  setInterval(function () {
+    $('#slideshow > div:first').fadeOut(1000).next().fadeIn(1000).end().appendTo('#slideshow');
+  }, 7000);
 }; // get token when you need it and load react components
 
 

@@ -12,9 +12,9 @@ const makerPage = (req, res) => {
   });
 };
 
+// delete all of the shows for this particular user
 const deleteAll = (req, res) => {
-  console.log('delete all...');
-  Show.ShowModel.findByIdAndDelete(req.session.account._id, (err) => {
+  Show.ShowModel.deleteShows(req.session.account._id, (err) => {
     if (err) {
       return res.status(400).json({ error: 'An error occurred' });
     }
@@ -22,6 +22,7 @@ const deleteAll = (req, res) => {
   });
 };
 
+// update the status of a show from watchlist or complete
 const updateShow = (req, res) => {
   Show.ShowModel.findById(req.body.id, (err, doc) => {
     if (err) {
@@ -43,10 +44,12 @@ const updateShow = (req, res) => {
   });
 };
 
+// create a single show with the correct data
 const makeShow = (req, res) => {
   if (!req.body.name || !req.body.rating || !req.body.service || !req.body.status) {
-    return res.status(400).json({ error: 'Name, rating, service, and status are all required.' });
+    return res.status(400).json({ error: 'All fields are required' });
   }
+  // find the right image to display based on streaming service
   let imgString;
   if (req.body.service === 'Netflix') {
     imgString = '/assets/img/netflix.png';
@@ -64,6 +67,7 @@ const makeShow = (req, res) => {
     imgString = '/assets/img/favicon.png';
   }
 
+  // grab and properly set all of the show data
   const showData = {
     name: req.body.name,
     rating: req.body.rating,
@@ -94,7 +98,6 @@ const getShows = (request, response) => {
 
   return Show.ShowModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
-      console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
     return res.json({ shows: docs });

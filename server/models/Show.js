@@ -61,6 +61,7 @@ ShowSchema.statics.toAPI = (doc) => ({
   logo: doc.logo,
 });
 
+// find a specific owner
 ShowSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
@@ -68,11 +69,20 @@ ShowSchema.statics.findByOwner = (ownerId, callback) => {
   return ShowModel.find(search).select('name rating service status logo').lean().exec(callback);
 };
 
+// find the id
 ShowSchema.statics.findById = (id, callback) => {
   const search = {
     _id: convertId(id),
   };
   return ShowModel.findOne(search).exec(callback);
+};
+
+// delete all of the shows for a particular user
+ShowSchema.statics.deleteShows = (ownerId, callback) => {
+  const search = {
+    owner: convertId(ownerId),
+  };
+  return ShowModel.deleteMany(search, callback);
 };
 
 ShowModel = mongoose.model('Show', ShowSchema);

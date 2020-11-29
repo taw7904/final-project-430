@@ -23,6 +23,8 @@ html, body {
     margin-bottom: 15px;
 }
 
+/* nav things */
+
 nav {
     width: 100%;
     height: 60px;
@@ -59,6 +61,8 @@ nav {
 .navlink a:hover {
     color: #fcc6b1;
 }
+
+/* entering a new show form */
 
 .showForm {
     border: none;
@@ -156,6 +160,8 @@ nav {
     background-color: #ffafa1;
 }
 
+/* form for the front, log in and sign up */
+
 .mainForm {
     height: 205px;
     width: 300px;
@@ -226,6 +232,8 @@ nav {
     border-bottom: 2px solid #7d7d7d;
 }
 
+/* error messages */
+
 #showMessage {
     display: none;
     top: 100px;
@@ -242,6 +250,8 @@ nav {
     font-family: 'Hind Guntur', sans-serif;
     color: #f0806c;
 }
+
+/* list of shows */
 
 #show {
     z-index: 225;
@@ -338,13 +348,15 @@ h3.showStatus {
     width: 10%;
 }
 
-#filterForm {
-    margin-left: 450px;
-}
-
 .directions {
     font-size: 0.93em;
     margin-bottom: 30px;
+}
+
+/* filters */
+
+#filterForm {
+    margin-left: 450px;
 }
 
 #filterSpan {
@@ -384,12 +396,16 @@ h3.showStatus {
     outline: none;
 }
 
+/* password change pop up */
+
 #passChange {
     z-index: 100;
     position: absolute;
     top: 10px;
     left: 43%;
 }
+
+/* previous and next for the pages */
 
 .prev, .next {
     float: right;
@@ -408,6 +424,41 @@ h3.showStatus {
 }
 
 #deleteBtn {
-    margin-top: -220px;
+    margin-top: -275px;
     margin-left: 157px;
+}
+
+.page {
+    float: right;
+    margin-right: 25px;
+    font-style: italic;
+    color: #bfbfbf;
+}
+
+/* ads */
+
+#adBox {
+    width: 340px;
+    height: 125px;
+    margin-top: -230px;
+    margin-left: 50px;
+    background-color: pink;
+}
+
+/* rotating through ad slideshow code help from here: 
+https://css-tricks.com/snippets/jquery/simple-auto-playing-slideshow/ 
+*/
+#slideshow { 
+    position: relative; 
+    width: 340px;
+    height: 125px;
+}
+
+#slideshow > div { 
+    position: absolute; 
+}
+
+#slideshow img {
+    width: 340px;
+    height: 125px;
 }

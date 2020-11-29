@@ -8,7 +8,6 @@ const handleLogin = (e) => {
         handleError("Username or password is empty");
         return false;
     }
-    //console.log($("input[name=_csrf]").val());
     sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
     
     return false;
@@ -47,7 +46,7 @@ const LoginWindow = (props) => {
   );  
 };
 
-// same thing as above, but with sign up
+// create sign up window template
 const SignupWindow = (props) => {
   return (
     <form id="signupForm" 
@@ -75,7 +74,7 @@ const createLoginWindow = (csrf) => {
     );
 };
 
-// same as above, but sign up
+// create the sign up form and token with it and render to content area
 const createSignupWindow = (csrf) => {
     ReactDOM.render(
         <SignupWindow csrf={csrf} />,

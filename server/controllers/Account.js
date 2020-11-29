@@ -1,18 +1,20 @@
 const models = require('../models');
 
-// this keeps changing formatting
 const { Account } = models;
 
+// render the login page
 const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
+// destroy user session on logout
 const logout = (req, res) => {
   // remove a user's session
   req.session.destroy();
   res.redirect('/');
 };
 
+// login a user
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -35,6 +37,7 @@ const login = (request, response) => {
   });
 };
 
+// create new account for new user signup
 const signup = (request, response) => {
   const req = request;
   const res = response;
@@ -78,6 +81,7 @@ const signup = (request, response) => {
   });
 };
 
+// change password for a user
 const changePass = (request, response) => {
   const req = request;
   const res = response;
@@ -106,12 +110,13 @@ const changePass = (request, response) => {
       if (err) {
         return res.status(400).json({ error: 'An error occured' });
       }
-      return hash;
+      return res.status(200);
     });
     res.json({ redirect: '/maker' });
   });
 };
 
+// get csrf token
 const getToken = (request, response) => {
   const req = request;
   const res = response;

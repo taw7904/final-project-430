@@ -1,10 +1,15 @@
 // global csrfToken
 let csrfToken;
+// all the different streaming service filters
 let filterArr = [];
-let showLength;
+// starting index of filtered array
 let s1 = 1;
+// ending index of filtered array
 let s2 = 6;
+// temporary variables for keeping track of pages once filtered
 let tempS;
+let pageNums = 1;
+let currPage = 1;
 
 // add react components for the app
 const handleShow = (e) => {
@@ -97,8 +102,7 @@ const ShowList = function(props) {
           </div>
       );
   }
-    showLength = props.shows.length;
-    console.log(showLength);
+    //count how many shows are in the array
     let s = 0;
     
     const showNodes = props.shows.map(function(show) {
@@ -106,6 +110,11 @@ const ShowList = function(props) {
         if(filterArr.length == 0 || filterArr.includes(show.service)) {
         s++;
         tempS = s;
+        // calculate the page number & current page
+        pageNums = Math.ceil(tempS/6);
+        if(pageNums==0) { pageNums = 1 }
+            
+        //display the shows if theyre in the page range
         if(s >= s1 && s <= s2) {
         return (
             <div key={show._id} className={`${show.status} show`}>
@@ -124,6 +133,7 @@ const ShowList = function(props) {
     <div className="showList">
         <span className="next" onClick={scrollShow}>Next</span>
         <span className="prev" onClick={scrollShow}>Previous</span>
+        <span className="page" >Page {currPage} of {pageNums}</span>
             {showNodes}
         <span className="next" id="belowNext" onClick={scrollShow}>Next</span>
         <span className="prev" id="belowPrev" onClick={scrollShow}>Previous</span>
@@ -131,7 +141,7 @@ const ShowList = function(props) {
     );
 };
 
-// create React JSX for Filtering - come back to this after the filter function is created
+// create React JSX for Filtering 
 const FilterForm = (props) => {
   return (
     <form id="filterForm" 
@@ -163,6 +173,7 @@ const FilterForm = (props) => {
   );  
 };
 
+// create React JSX for deleting all form/button
 const DeleteForm = (props) => {
   return (
     <form id="deleteForm" 
@@ -177,16 +188,35 @@ const DeleteForm = (props) => {
   );  
 };
 
+// create content area for the ads to appear and cycle through
+const AdBox = (props) => {
+  return (
+    <div id="slideshow">
+    <div>
+     <img src="/assets/img/ads/wellness.png" alt="Wellness Tracker" />
+    </div>
+    <div>
+     <img src="/assets/img/ads/igme430.png" alt="IGME340, Everyone's Favorite Online Class" />
+    </div>
+    <div>
+     <img src="/assets/img/ads/holiday.png" alt="Holiday Deals" />
+    </div>
+    </div>
+  );  
+};
+
+// called when delete all shows button is clicked
+// will delete all the shows from this users database
 const deleteAll = (e) => {
-    console.log("delete all");
     sendAjax('POST', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), loadShowsFromServer);
 };
 
+// controlls going to the next page of shows when next or previous is hit
 const scrollShow = (e) => {
-    console.log("test" + tempS);
     if(e.target.className==='next' && s2 < tempS) {
         s1 += 6;
         s2 += 6;
+        currPage++;
     }
     if(e.target.className==='prev')  {
         if(s2<=6) {
@@ -196,6 +226,7 @@ const scrollShow = (e) => {
         else {
         s1 -= 6;
         s2 -= 6;
+        currPage--;
         }
     }
     loadShowsFromServer();
@@ -203,18 +234,23 @@ const scrollShow = (e) => {
 
 // get the filters from the checkboxes and add them to array
 const checkFilters = (e) => {
+    currPage=1;
+    s1=1;
+    s2=6;
     if(e.target.checked) {
         filterArr.push(e.target.value);
     }
     else {
         filterArr = filterArr.filter(el => el !== e.target.value);
     }
-    console.log(e.target.value);
     loadShowsFromServer();
 };
 
 // clear all filters on button click
 const clearFilters = (e) => {
+    currPage=1;
+    s1=1;
+    s2=6;
     filterArr = [];
     const boxes = document.querySelectorAll('.filterBoxes');
     for(let i=0; i<boxes.length; i++) {
@@ -269,6 +305,7 @@ const loadShowsFromServer = () => {
     });
 };
 
+// create React JSX for the password change pop up
 const ChangePassWindow = (props) => {
   return (
     <form id="changePassForm" 
@@ -287,6 +324,7 @@ const ChangePassWindow = (props) => {
   );  
 };
 
+// only render this on click of the change password button
 const createChangePassWindow = (csrf) => {
     ReactDOM.render(
         <ChangePassWindow csrf={csrf} />,
@@ -302,21 +340,45 @@ const setup = function(csrf) {
   ReactDOM.render(
   <ShowForm csrf={csrf} />, document.querySelector("#makeShow")
   );
-    ReactDOM.render(
+  ReactDOM.render(
   <DeleteForm csrf={csrf} />, document.querySelector("#deleteAll")
   );
-    ReactDOM.render(
-    <ShowList shows={[]} />, document.querySelector("#shows")
-    );
-    
+  ReactDOM.render(
+  <AdBox csrf={csrf} />, document.querySelector("#adBox")
+  );
+  ReactDOM.render(
+  <ShowList shows={[]} />, document.querySelector("#shows")
+  );
+    // set up the slideshow ad functionality
+    setUpSlides();
+    // hook up rendering the change password button to the click
     const changePassButton = document.querySelector("#changePassButton");
     changePassButton.addEventListener("click", (e) => {
         e.preventDefault();
         createChangePassWindow(csrf);
+        // make everything underneath opaque
         document.querySelector("#mainShowDiv").style.opacity = 0.3;
         return false;
     });
     loadShowsFromServer();
+};
+
+// set up the slideshow ad functionality
+// to rotate through each ad every 7 seconds
+const setUpSlides = () => {
+    /* rotating through ad slideshow code help from here: 
+    https://css-tricks.com/snippets/jquery/simple-auto-playing-slideshow/ 
+    */
+  $("#slideshow > div:gt(0)").hide();
+
+    setInterval(function() { 
+    $('#slideshow > div:first')
+    .fadeOut(1000)
+    .next()
+    .fadeIn(1000)
+    .end()
+    .appendTo('#slideshow');
+    },  7000);  
 };
 
 // get token when you need it and load react components

@@ -11,8 +11,7 @@ var handleLogin = function handleLogin(e) {
   if ($("#user").val() == '' || $("#pass").val() == '') {
     handleError("Username or password is empty");
     return false;
-  } //console.log($("input[name=_csrf]").val());
-
+  }
 
   sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
   return false;
@@ -66,7 +65,7 @@ var LoginWindow = function LoginWindow(props) {
     type: "submit",
     value: "SIGN IN"
   }));
-}; // same thing as above, but with sign up
+}; // create sign up window template
 
 
 var SignupWindow = function SignupWindow(props) {
@@ -112,7 +111,7 @@ var createLoginWindow = function createLoginWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(LoginWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-}; // same as above, but sign up
+}; // create the sign up form and token with it and render to content area
 
 
 var createSignupWindow = function createSignupWindow(csrf) {
